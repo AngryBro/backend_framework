@@ -1,4 +1,5 @@
 <?php
+require_once '../controllers/TestController.php';
 
 class Route {
 	protected static $routes = [];
@@ -13,14 +14,17 @@ class Route {
 		$url = $_SERVER['REQUEST_URI'];
 		if(array_key_exists($url,self::$routes)) {
 			self::$params['controller'] = self::$routes[$url]['controller'];
+			self::$params['action'] = self::$routes[$url]['action'];
 			return true;
 		}
 		return false;
 	}
 	public static function run() {
 		if(self::match()) {
-			$path = '../app/Controllers/'.self::$params['controller'];
-			echo $path;
+			$path = '../controllers/'.self::$params['controller'];
+			$controller = new TestController(self::$params);
+			$action = self::$params['action'];
+			$controller->$action();
 		}
 		else {
 			echo 404;
@@ -28,4 +32,4 @@ class Route {
 	}
 }
 
-Route::add('/test','TestController.php','none');
+Route::add('/test','TestController.php','ShowTest');

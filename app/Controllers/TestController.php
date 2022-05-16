@@ -1,8 +1,16 @@
 <?php
-require '../Controller.php';
+include '../app/Controller.php';
+include '../app/models/Test.php';
 
 class TestController extends Controller {
-	public function ShowTest() {
-		echo $this->params;
+	
+	public function view($params) {
+		$view = new View('test');
+		$view->render($params);
 	}
+	
+	public function send() {
+		//
+	}
+	
 }

@@ -1,9 +1,12 @@
 <?php
+
+include '../app/View.php';
+
 abstract class Controller {
 	
-	public $params;
+	private $controller;
 	
-	public function __construct($params) {
-		$this->params = $params;
+	public function __construct($controller) {
+		$this->controller = $controller;
 	}
 }

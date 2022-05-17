@@ -16,11 +16,14 @@ class AuthController extends Controller {
 	}
 	
 	public function login() {
-		$model = new Auth('Users');
-		$login = $model->login($_POST);
-		if($login) {
-			//
-		}	
+		session_start();
+		$auth = new Auth('Users');
+		if($auth->submit()) {
+			echo 'submit';
+		}
+		else {
+			echo 'show';
+		}
 	}
 	
 	public function register() {

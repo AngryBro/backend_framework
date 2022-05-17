@@ -41,7 +41,7 @@ class Route {
 	}
 }
 
-Route::add('/login','Auth','loginView');
+Route::add('/login','Auth','login');
 Route::add('/test','Test','test');
 Route::add('/admin/register','Auth','registerView');
 Route::add('/admin/register/submit','Auth','register');

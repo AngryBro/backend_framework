@@ -5,7 +5,7 @@ include '../app/Model.php';
 class Auth extends Model {
 	
 	public function submit() {
-		$submit = explode('/',$_SERVER['REQUEST_URI']);
+		$submit = explode('/',$_SERVER['HTTP_REFERER']);
 		$submit = array_pop($submit);
 		return $submit == 'submit';
 	}
@@ -15,9 +15,7 @@ class Auth extends Model {
 		$password = $post['password'];
 		$password = md5($password);
 		if($this->db_get($login)['password']==$password) {
-			$_SESSION['role_token'] = $login=='admin'?
-				$this->role_token['admin']:
-				$this->role_token['user'];
+			$_SESSION['user'] = $login;
 			return true;
 		}
 		return false;

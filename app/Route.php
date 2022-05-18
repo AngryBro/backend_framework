@@ -4,12 +4,17 @@ class Route {
 	
 	private static $routes = [];
 	
-	public static function add($route,$controller,$method) {
+	public static function add() {
+		$args = func_get_args();
+		$route = $args[0];
+		$controller = $args[1];
+		$method = isset($args[2])?$args[2]:'view';
 		self::$routes[$route] = [
 			'controller' => $controller,
-			'method' => $method
+			'method' => $method,
 		];
 	}
+	
 	public static function match() {
 		$url = $_SERVER['REQUEST_URI'];
 		if(array_key_exists($url,self::$routes)) {
@@ -17,6 +22,7 @@ class Route {
 		}
 		return false;
 	}
+	
 	public static function run() {
 		$match = self::match();
 		$controller = $match['controller'];
@@ -40,9 +46,3 @@ class Route {
 		}
 	}
 }
-
-Route::add('/login','Auth','login');
-Route::add('/test','Test','test');
-Route::add('/admin/register','Auth','registerView');
-Route::add('/admin/register/submit','Auth','register');
-Route::add('/login/submit','Auth','login');

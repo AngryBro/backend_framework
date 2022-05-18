@@ -1,6 +1,11 @@
 <html>
 	<head>
 		<title>Авторизация</title>
+		<script>
+			<?php
+				echo $alert;
+			?>
+		</script>
 	</head>
 	<body>
 		<h1>Авторизация пользователя</h1>

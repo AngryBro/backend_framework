@@ -6,8 +6,18 @@ class AuthController extends Controller {
 	
 	
 	public function loginView() {
+		session_start();
+		$auth = new Auth('Users');
+		unset($_SESSION['user']);
 		$view = new View('login');
-		$view->render();
+		if($auth->submit()) {
+			$view->render([
+				'alert'=>'alert("Неверные данные")'
+			]);
+		}
+		else {
+			$view->render();
+		}
 	}
 	
 	public function registerView() {
@@ -18,11 +28,12 @@ class AuthController extends Controller {
 	public function login() {
 		session_start();
 		$auth = new Auth('Users');
-		if($auth->submit()) {
-			echo 'submit';
+		$authed = $auth->login($_POST);
+		if($authed) {
+			//
 		}
 		else {
-			echo 'show';
+			header('Location: /login');
 		}
 	}
 	

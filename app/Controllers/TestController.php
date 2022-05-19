@@ -4,9 +4,9 @@ include '../app/models/Test.php';
 
 class TestController extends Controller {
 	
-	public function view($params) {
+	public function view() {
 		$view = new View('test');
-		$view->render($params);
+		$view->render();
 	}
 	
 	public function send() {

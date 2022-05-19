@@ -5,6 +5,7 @@
 	<body>
 		<h1>Тестовая страница</h1>
 		<?php
+			$a = 'Test';
 			echo $a;
 		?>
 	</body>

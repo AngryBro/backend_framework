@@ -7,17 +7,8 @@ class AuthController extends Controller {
 	
 	public function loginView() {
 		session_start();
-		$auth = new Auth('Users');
-		unset($_SESSION['user']);
 		$view = new View('login');
-		if($auth->submit()) {
-			$view->render([
-				'alert'=>'alert("Неверные данные")'
-			]);
-		}
-		else {
-			$view->render();
-		}
+		$view->render();
 	}
 	
 	public function registerView() {
@@ -30,7 +21,12 @@ class AuthController extends Controller {
 		$auth = new Auth('Users');
 		$authed = $auth->login($_POST);
 		if($authed) {
-			//
+			if($_SESSION['user']=='admin') {
+				header('Location: /admin');
+			}
+			else {
+				header('Location: /test');
+			}
 		}
 		else {
 			header('Location: /login');
@@ -38,9 +34,8 @@ class AuthController extends Controller {
 	}
 	
 	public function register() {
-		$model = new Auth('Users');
-		$model->register($_POST);
-		echo $_SERVER['HTTP_REFERER'];
+		$auth = new Auth('Users');
+		$auth->register($_POST);
 	}
 	
 }

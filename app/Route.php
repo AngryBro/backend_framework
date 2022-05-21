@@ -38,11 +38,17 @@ class Route {
 					$controller = new TestController($controller);
 					break;
 				}
+				case 'Admin': {
+					$controller = new AdminController($controller);
+					break;
+				}
 			}
 			$controller->$method();
 		}
 		else {
-			echo 404;
+			include '../app/View.php';
+			$view = new View('page404');
+			$view->render();
 		}
 	}
 }

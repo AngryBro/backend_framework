@@ -3,7 +3,7 @@
 		<title>Регистрация</title>
 	</head>
 	<body>
-		<h1>Регистрация пользователя</h1>
+		<h1><a href='/admin'>Регистрация пользователя</a></h1>
 		<form method='post' action='/admin/register/submit'>
 			<table>
 				<tr>

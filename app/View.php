@@ -8,8 +8,11 @@ class View {
 		$this->path = '../resources/views/'.$viewname.'.php';
 	}
 	
-	public function render($params = []) {
-		extract($params);
+	public function render() {
+		if(func_num_args()) {
+			$arg = func_get_args()[0];
+			extract($arg);
+		}
 		require $this->path;
 	}
 }

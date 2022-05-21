@@ -6,7 +6,9 @@ class TestController extends Controller {
 	
 	public function view() {
 		$view = new View('test');
-		$view->render();
+		$view->render([
+			'test' => 'TESTING'
+		]);
 	}
 	
 	public function send() {

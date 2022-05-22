@@ -4,26 +4,64 @@ include '../app/models/Admin.php';
 
 class AdminController extends Controller {
 	
-	public function view() {
-		$admin = new View('admin');
-		$admin->render();
+	public function index() {
+		session_start();
+		$admin = new Admin('Users');
+		$access = $admin->userAccess($_SESSION['user']);
+		if($access) {
+			$view = new View('admin');
+			$view->render();
+		}
+		else {
+			$view = new View('page404');
+			$view->render();
+		}
 	}
 	
-	public function unregister() {
+	public function register() {
+		session_start();
 		$admin = new Admin('Users');
-		$json = $_POST['json'];
-		$users = json_decode($json,false);
-		$admin->unregister($users);
-		header('Location: /admin/unregister');
+		$access = $admin->userAccess($_SESSION['user']);
+		if($access) {
+			$view = new View('register');
+			if(empty($_POST)) {
+				$view->render();
+			}
+			else {
+				$registered = $admin->register($_POST);
+				$msg = $registered?'"Успешно"':'"Ошибка"';
+				$view->render([
+					'alert' => '<script>alert('.$msg.')</script>'
+				]);
+			}
+		}
+		else {
+			$view = new View('page404');
+			$view->render();
+		}
 	}
 
-	public function unregView() {
-		$admin = new Admin('Users');
-		$users = $admin->getUsers();
+	public function unregister() {
+		session_start();
 		$view = new View('unregister');
-		$view->render([
-			'users' => $users
-		]);
+		$admin = new Admin('Users');
+		if(empty($_POST)) {
+			$users = $admin->getUsers();
+			$view->render([
+				'users' => $users
+			]);
+		}
+		else {
+			$json = $_POST['json'];
+			$usersArr = json_decode($json,false);
+			$success = $admin->unregister($usersArr);
+			$users = $admin->getUsers();
+			$msg = $success?'"Успешно"':'"Ошибка"';
+			$view->render([
+				'alert' => '<script>alert('.$msg.')</script>',
+				'users' => $users
+			]);
+		}
 	}
 
 }

@@ -4,7 +4,7 @@ include '../app/models/Test.php';
 
 class TestController extends Controller {
 	
-	public function view() {
+	public function index() {
 		$view = new View('test');
 		$view->render([
 			'test' => 'TESTING'

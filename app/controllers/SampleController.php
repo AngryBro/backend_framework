@@ -4,7 +4,7 @@ include '../app/models/Sample.php';
 
 class SampleController extends Controller {
 	
-	public function sample() {
+	public function index() {
 		//	
 	}
 	

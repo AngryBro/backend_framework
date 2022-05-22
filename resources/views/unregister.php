@@ -1,25 +1,13 @@
 <html>
 	<head>
 		<title>Удалить</title>
-		<script>
-			var users = [];
-			function change(checkbox) {
-				if(checkbox.checked) {
-					users.push(checkbox.value);
-				}
-				else {
-					var temp = [];
-					for(var i = 0; i<users.length; i++) {
-						if(users[i]!=checkbox.value) {
-							temp.push(users[i]);
-						}
-					}
-					users = temp;
-				}
-				var input = document.getElementById('json');
-				input.setAttribute('value',JSON.stringify(users));
+		<?php
+			include '../app/srcLoader.php';
+			script('unregister');
+			if(isset($alert)) {
+				echo $alert;
 			}
-		</script>
+		?>
 	</head>
 	<body>
 		<h1><a href='/admin'>Удалить пользователя</a></h1>
@@ -34,19 +22,21 @@
 			</tr>
 			<?php
 				foreach($users as $user) {
-					echo 
-					'<tr>'.
-						'<td>'.
-							$user.
-						'</td>'.
-						'<td>'.
-							'<input value="'.$user.'" type="checkbox" onchange="change(this)"></input>'.
-						'</td>'
-					.'</tr>' ;
+					if(($user!='admin')&&($user!='user')) {
+						echo 
+						'<tr>'.
+							'<td>'.
+								$user.
+							'</td>'.
+							'<td>'.
+								'<input value="'.$user.'" type="checkbox" onchange="change(this)"></input>'.
+							'</td>'
+						.'</tr>' ;
+					}
 				}
 			?>
 		</table>
-		<form method='post' action='/admin/unregister/submit'>
+		<form method='post' action='/admin/unregister'>
 			<input name='json' hidden id='json'></input>
 			<button type='submit'>Удалить</button>
 		</form>

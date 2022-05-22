@@ -4,38 +4,40 @@ include '../app/models/Auth.php';
 
 class AuthController extends Controller {
 	
-	
-	public function loginView() {
-		session_start();
-		$view = new View('login');
-		$view->render();
-	}
-	
-	public function registerView() {
-		$view = new View('register');
-		$view->render();
-	}
-	
 	public function login() {
-		session_start();
-		$auth = new Auth('Users');
-		$authed = $auth->login($_POST);
-		if($authed) {
-			if($_SESSION['user']=='admin') {
-				header('Location: /admin');
-			}
-			else {
-				header('Location: /test');
-			}
+		if(empty($_POST)) {
+			$view = new View('login');
+			$view->render();
 		}
 		else {
-			header('Location: /login');
+			session_start();
+			$auth = new Auth('Users');
+			$authed = $auth->login($_POST);
+			if($authed) {
+				header('Location: /'.($_SESSION['user']=='admin'?'admin':'test'));
+			}
+			else {
+				$view = new View('login');
+				$view->render([
+					'alert' => '<script>alert("Неверные данные")</script>'
+				]);
+			}
 		}
 	}
 	
 	public function register() {
-		$auth = new Auth('Users');
-		$auth->register($_POST);
+		$view = new View('register');
+		if(empty($_POST)) {
+			$view->render();
+		}
+		else {
+			$auth = new Auth('Users');
+			$registered = $auth->register($_POST);
+			$msg = $registered?'"Успешно"':'"Ошибка"';
+			$view->render([
+				'alert' => '<script>alert('.$msg.')</script>'
+			]);
+		}
 	}
 	
 }

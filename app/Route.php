@@ -8,7 +8,7 @@ class Route {
 		$args = func_get_args();
 		$route = $args[0];
 		$controller = $args[1];
-		$method = isset($args[2])?$args[2]:'view';
+		$method = isset($args[2])?$args[2]:'index';
 		self::$routes[$route] = [
 			'controller' => $controller,
 			'method' => $method,
@@ -29,20 +29,7 @@ class Route {
 		$method = $match['method'];
 		if($match) {
 			include '../app/controllers/'.$controller.'Controller.php';
-			switch($controller) {
-				case 'Auth': {
-					$controller = new AuthController($controller);
-					break;
-				}
-				case 'Test': {
-					$controller = new TestController($controller);
-					break;
-				}
-				case 'Admin': {
-					$controller = new AdminController($controller);
-					break;
-				}
-			}
+			eval('$controller = new '.$controller.'Controller($controller);');
 			$controller->$method();
 		}
 		else {

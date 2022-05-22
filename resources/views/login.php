@@ -1,15 +1,15 @@
 <html>
 	<head>
 		<title>Авторизация</title>
-		<script>
 			<?php
-				echo $alert;
+				if(isset($alert)) {
+					echo $alert;
+				}
 			?>
-		</script>
 	</head>
 	<body>
 		<h1>Авторизация пользователя</h1>
-		<form method='post' action='/login/submit'>
+		<form method='post' action='/login'>
 			<table>
 				<tr>
 					<td>

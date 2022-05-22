@@ -7,7 +7,7 @@ class TestController extends Controller {
 	public function index() {
 		$view = new View('test');
 		$view->render([
-			'test' => 'TESTING'
+			'task_count' => 27
 		]);
 	}
 	

@@ -2,12 +2,13 @@
 	<head>
 		<title>Удалить</title>
 		<?php
-			include '../app/srcLoader.php';
-			script('unregister');
-			if(isset($alert)) {
-				echo $alert;
-			}
+			// include '../app/srcLoader.php';
+			// script('unregister');
+			// if(isset($alert)) {
+			// 	echo $alert;
+			// }
 		?>
+		<script src='../resourses/js/unregister.js'></script>
 	</head>
 	<body>
 		<h1><a href='/admin'>Удалить пользователя</a></h1>

@@ -5,10 +5,18 @@ include '../app/models/Test.php';
 class TestController extends Controller {
 	
 	public function index() {
-		$view = new View('test');
-		$view->render([
-			'task_count' => 27
-		]);
+		session_start();
+		$authed = isset($_SESSION['user']);
+		if($authed) {
+			$view = new View('test');
+			$view->render([
+				'task_count' => 27
+			]);
+		}
+		else {
+			$view = new View('page404');
+			$view->render();
+		}
 	}
 	
 	public function send() {

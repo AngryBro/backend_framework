@@ -4,6 +4,10 @@ include '../app/Model.php';
 
 class Admin extends Model {
 	
+	public function __construct() {
+		return parent::__construct('Users');
+	}
+
 	public function unregister($users) {
 		$found = false;
 		foreach($users as $user) {

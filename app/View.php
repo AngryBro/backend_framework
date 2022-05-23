@@ -5,7 +5,7 @@ class View {
 	private $path;
 	
 	public function __construct($viewname) {
-		$this->path = '../resources/views/'.$viewname.'.php';
+		$this->path = '../app/views/'.$viewname.'.php';
 	}
 	
 	public function render() {

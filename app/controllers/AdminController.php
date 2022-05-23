@@ -6,7 +6,7 @@ class AdminController extends Controller {
 	
 	public function index() {
 		session_start();
-		$admin = new Admin('Users');
+		$admin = new Admin;
 		$access = $admin->userAccess($_SESSION['user']);
 		if($access) {
 			$view = new View('admin');

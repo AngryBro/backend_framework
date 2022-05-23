@@ -1,11 +1,8 @@
 <html>
 	<head>
 		<title>Тест</title>
-		<?php
-			include '../app/srcLoader.php';
-			script('test');
-			style('test');
-		?>
+		<script src='js/test.js'></script>
+		<link rel='stylesheet' href='css/test.css'>
 	</head>
 	<body>
 		<h1>Тестовая страница</h1>

@@ -4,10 +4,12 @@ include '../app/models/Admin.php';
 
 class AdminController extends Controller {
 	
+	public function __construct() {
+		return parent::__construct('admin');
+	}
+
 	public function index() {
-		session_start();
-		$admin = new Admin;
-		$access = $admin->userAccess($_SESSION['user']);
+		$access = $this->access();
 		if($access) {
 			$view = new View('admin');
 			$view->render();
@@ -19,10 +21,9 @@ class AdminController extends Controller {
 	}
 	
 	public function register() {
-		session_start();
-		$admin = new Admin('Users');
-		$access = $admin->userAccess($_SESSION['user']);
+		$access = $this->access();
 		if($access) {
+			$admin = new Admin;
 			$view = new View('register');
 			if(empty($_POST)) {
 				$view->render();
@@ -42,7 +43,11 @@ class AdminController extends Controller {
 	}
 
 	public function unregister() {
-		session_start();
+		if(!$this->access()) {
+			$view = new View('page404');
+			$view->render();
+			return;
+		}
 		$view = new View('unregister');
 		$admin = new Admin('Users');
 		if(empty($_POST)) {

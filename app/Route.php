@@ -29,7 +29,7 @@ class Route {
 		$method = $match['method'];
 		if($match) {
 			include '../app/controllers/'.$controller.'Controller.php';
-			eval('$controller = new '.$controller.'Controller($controller);');
+			eval('$controller = new '.$controller.'Controller;');
 			$controller->$method();
 		}
 		else {

@@ -23,17 +23,16 @@ class Admin extends Model {
 		$login = $post['login'];
 		$password = $post['password'];
 		$password = md5($password);
-		$this->db_set($login,['password' => $password]);
+		$this->db_set($login,[
+			'password' => $password,
+			'role' => 'user'
+		]);
 		return $this->db_key_exists($login);
 	}
 
 	public function getUsers() {
 		$users = $this->db_get_keys();
 		return $users;
-	}
-
-	public function userAccess($user) {
-		return 'admin'==$user;
 	}
 
 	public function sample() {

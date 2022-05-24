@@ -12,8 +12,10 @@ class Auth extends Model {
 		$login = $post['login'];
 		$password = $post['password'];
 		$password = md5($password);
-		if($this->db_get($login)['password']==$password) {
+		$user = $this->db_get($login);
+		if($user['password']==$password) {
 			$_SESSION['user'] = $login;
+			$_SESSION['role'] = $user['role'];
 			return true;
 		}
 		return false;

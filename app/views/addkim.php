@@ -1,6 +1,9 @@
 <html>
 	<head>
 		<title>Добавить КИМ</title>
+		<?php
+			echo $alert;
+		?>
 	</head>
 	<body>
 		<h1><a href='/admin'>Добавить КИМ</a></h1>

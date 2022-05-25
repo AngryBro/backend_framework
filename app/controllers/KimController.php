@@ -9,39 +9,35 @@ class KimController extends Controller {
 	}
 
 	public function addkim() {
+		$params = [
+			'alert' => ''
+		];
 		if($this->access()) {
 			$view = new View('addkim');
-			if(empty($_POST)) {
-				$view->render();
-			}
-			else {
+			if(!empty($_POST)) {
 				$kim = new Kim;
-				$kim->add($_POST,$_FILES);
-				$view->render();
+				$msg = $kim->add($_POST,$_FILES);
+				$params['alert'] = '<script>alert("'.$msg.'")</script>';
 			}
 		}
 		else {
 			$view = new View('page404');
-			$view->render();
 		}
+		$view->render($params);
 	}
 
 	public function delkim() {
-		session_start();
-		if($_SESSION['user']!='admin') {
-			$view = new View('page404');
-			$view->render();
-			return;
-		}
+		if($this->access()) {
 		$view = new View('delkim');
-		if(empty($_POST)) {
-			$view->render();
+			if(!empty($_POST)) {
+				$kim = new Kim;
+				$kim->delete($_POST);
+			}
 		}
 		else {
-			$kim = new Kim;
-			$kim->delete($_POST);
-			$view->render();
+			$view = new View('page404');
 		}
+		$view->render();
 	}
 
 	public function index() {

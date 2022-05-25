@@ -1,27 +1,24 @@
 <html>
 	<head>
 		<title>Удалить КИМ</title>
+		<script defer src='/js/delkim.js'></script>
 	</head>
 	<body>
 		<h1><a href='/admin'>Удалить КИМ</a></h1>
+		<div hidden id='get'><?php echo $kims ?></div>
 		<form method='post' action='/admin/delkim'>
-			<table>
+			<table id='table'>
 				<tr>
 					<td>
-						Номер КИМ:
+						Номер КИМ
 					</td>
 					<td>
-						<input name='kim'></input>
+						Галочка
 					</td>
 				</tr>
-				<tr>
-					<td>
-					</td>
-					<td>
-						<button type='submit'>Удалить</button>
-					</td>
-				</tr>
+				
 			</table>
+			<input hidden id='post' name='json'></input>
 		</form>
 	</body>
 </html>

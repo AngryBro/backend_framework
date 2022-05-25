@@ -41,7 +41,7 @@ class KimController extends Controller {
 			$view = new View('page404');
 		}
 		$view->render([
-			'kims' => json_encode($kim->getKims())
+			'kims' => json_encode(array_diff($kim->getKims(),['demo']))
 		]);
 	}
 

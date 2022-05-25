@@ -4,17 +4,22 @@ include '../app/models/Test.php';
 
 class TestController extends Controller {
 	
+	public function __construct() {
+		return parent::__construct('user');
+	}
+
 	public function index() {
-		session_start();
-		$authed = isset($_SESSION['user']);
-		if($authed) {
+		$access = $this->access();
+		if($access) {
 			$view = new View('test');
+			$test = new Test;
+			$params = $test->load($_SESSION['user']);
 			$view->render([
-				'task_count' => 27
+				'json' => $params
 			]);
 		}
 		else {
-			$view = new View('page404');
+			$view = new View('login');
 			$view->render();
 		}
 	}

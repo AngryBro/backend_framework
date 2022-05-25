@@ -1,28 +1,20 @@
 <html>
 	<head>
 		<title>Тест</title>
-		<script src='js/test.js'></script>
-		<link rel='stylesheet' href='css/test.css'>
+		<script defer src='/js/test.js'></script>
+		<link rel='stylesheet' href='/css/test.css'>
 	</head>
 	<body>
+		<div hidden id='json'><?php echo $json ?></div>
 		<h1>Тестовая страница</h1>
 		<table class='app'>
 			<tr>
 				<td style='overflow:scroll'>
 					<table id='buttons' style='display:block;height:800px;width:60px'>
-						<?php
-							for($i=0;$i<=$task_count;$i++) {
-								$n = $i==0?'<i>i</i>':$i;
-								echo 
-								'<tr><td>'.
-								'<button class="page" id="page_'.$n.'">'.$n.'</button>'
-								.'</td></tr>';
-							}
-						?>
 					</table>
 				</td>
 				<td style='width:800px;height:800px'>
-				<img alt='картинка'>
+				<img id='img' alt='картинка'>
 				</td>
 				<td valign='top'>
 					<table>

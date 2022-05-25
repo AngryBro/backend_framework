@@ -4,8 +4,10 @@ include '../app/Model.php';
 
 class Test extends Model {
 
+	private $testDB;
+
 	public function __construct() {
-		return parent::construct();
+		$this->testDB = new DB('Test');
 	}
 
 

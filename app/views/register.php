@@ -29,6 +29,14 @@
 				</tr>
 				<tr>
 					<td>
+						КИМ:
+					</td>
+					<td>
+						<input name='kim'></input>
+					</td>
+				</tr>
+				<tr>
+					<td>
 					</td>
 					<td>
 						<button type='submit'>Зарегистрировать</button>

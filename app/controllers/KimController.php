@@ -17,7 +17,10 @@ class KimController extends Controller {
 			if(!empty($_POST)) {
 				$kim = new Kim;
 				$msg = $kim->add($_POST,$_FILES);
-				$params['alert'] = '<script>alert("'.$msg.'")</script>';
+				$alert = '<script>alert("'.$msg.'")</script>';
+				$params = [
+					'alert' => $alert
+				];
 			}
 		}
 		else {
@@ -28,16 +31,18 @@ class KimController extends Controller {
 
 	public function delkim() {
 		if($this->access()) {
+		$kim = new Kim;
 		$view = new View('delkim');
 			if(!empty($_POST)) {
-				$kim = new Kim;
 				$kim->delete($_POST);
 			}
 		}
 		else {
 			$view = new View('page404');
 		}
-		$view->render();
+		$view->render([
+			'kims' => json_encode($kim->getKims())
+		]);
 	}
 
 	public function index() {

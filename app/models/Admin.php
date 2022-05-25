@@ -3,16 +3,18 @@
 include '../app/Model.php';
 
 class Admin extends Model {
-	
+
+	private $usersDB;
+
 	public function __construct() {
-		return parent::__construct('Users');
+		$this->usersDB = new DB('Users');
 	}
 
 	public function unregister($users) {
 		$found = false;
 		foreach($users as $user) {
-			if($this->db_key_exists($user)) {
-				$this->db_unset($user);
+			if($this->usersDB->exists($user)) {
+				$this->usersDB->unset($user);
 				$found = true;
 			}
 		}
@@ -23,15 +25,16 @@ class Admin extends Model {
 		$login = $post['login'];
 		$password = $post['password'];
 		$password = md5($password);
-		$this->db_set($login,[
+		$this->usersDB->set($login,[
 			'password' => $password,
-			'role' => 'user'
+			'role' => 'user',
+			'kim' => $post['kim']
 		]);
-		return $this->db_key_exists($login);
+		return $this->usersDB->exists($login);
 	}
 
 	public function getUsers() {
-		$users = $this->db_get_keys();
+		$users = $this->usersDB->keys();
 		return $users;
 	}
 

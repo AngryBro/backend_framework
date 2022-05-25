@@ -1,0 +1,60 @@
+img {
+    border-radius:5px;
+    border: solid rgb(100,100,255) 2px;
+}
+.app {
+    border-radius:5px;
+    border: solid rgb(100,100,255) 3px;
+    background-color:rgb(240,240,255);
+}
+textarea {
+    font-size:30;
+    width:200px;
+    height:200px;
+}
+.page {
+    width:50px;
+    height:50px;
+    font-size:20;
+    font-family:Times New Roman;
+    background-color:rgb(255,255,255);
+    border-radius:5px;
+    border: solid rgb(200,200,255) 1px;
+    cursor:pointer;
+}
+.active_page {
+    width:50px;
+    height:50px;
+    font-size:20;
+    background-color:rgb(0,0,150);
+    border-radius:5px;
+    border: solid rgb(200,200,255) 1px;
+    cursor:pointer;
+}
+.save {
+    background-color:rgb(0,255,170);
+    color:rgb(0,100,100);
+    width:100px;
+    height:30px;
+    border-radius:5px;
+    border:1px solid rgb(0,100,100);
+    cursor:pointer;
+}
+.clear {
+    background-color:rgb(255,255,255);
+    color:rgb(255,150,150);
+    width:100px;
+    height:30px;
+    border-radius:5px;
+    border:1px solid rgb(255,150,150);
+    cursor:pointer;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+}
+.disabled {
+    background-color:rgb(200,200,200);
+    color:rgb(100,100,100);
+    width:100px;
+    height:30px;
+    border-radius:5px;
+    border:1px solid rgb(100,100,100);
+    cursor:not-allowed;
+}

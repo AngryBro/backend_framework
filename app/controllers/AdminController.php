@@ -49,7 +49,7 @@ class AdminController extends Controller {
 			return;
 		}
 		$view = new View('unregister');
-		$admin = new Admin('Users');
+		$admin = new Admin;
 		if(empty($_POST)) {
 			$users = $admin->getUsers();
 			$view->render([

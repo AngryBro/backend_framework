@@ -16,8 +16,8 @@
 						Галочка
 					</td>
 				</tr>
-				
 			</table>
+			<button type='submit'>Удалить</button>
 			<input hidden id='post' name='json'></input>
 		</form>
 	</body>

@@ -25,9 +25,9 @@ class Route {
 	
 	public static function run() {
 		$match = self::match();
-		$controller = $match['controller'];
-		$method = $match['method'];
 		if($match) {
+			$controller = $match['controller'];
+			$method = $match['method'];
 			include '../app/controllers/'.$controller.'Controller.php';
 			eval('$controller = new '.$controller.'Controller;');
 			$controller->$method();

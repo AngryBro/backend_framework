@@ -15,11 +15,12 @@ class Test extends Model {
 	}
 
 	public function load($user) {
-		$kim = $this->usersDB->get($user)['kim'];
-		$kim = $this->kimsDB->get($kim);
+		$name = $this->usersDB->get($user)['kim'];
+		$kim = $this->kimsDB->get($name);
 		$params = [
 			'task_count' => $kim['task_count'],
-			'files' => $kim['files']
+			'files' => $kim['files'],
+			'name' => $name
 		];
 		$params = json_encode($params);
 		return $params;

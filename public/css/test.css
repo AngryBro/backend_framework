@@ -22,6 +22,16 @@ textarea {
     border: solid rgb(200,200,255) 1px;
     cursor:pointer;
 }
+.start {
+    background-color:rgb(0,255,170);
+    color:rgb(0,100,100);
+    width:300px;
+    height:100px;
+    border-radius:5px;
+    border:1px solid rgb(0,100,100);
+    cursor:pointer;
+    font-size:30;
+}
 .active_page {
     width:50px;
     height:50px;

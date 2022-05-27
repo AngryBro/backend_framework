@@ -3,6 +3,7 @@ var KIM = {
 };
 var ANSWERS = {};
 var CURRENT_TASK = 'i';
+var INPUT = document.getElementById('answer');
 function getKim(json_id) {
     var json_div = document.getElementById('json');
     var json = json_div.innerHTML;
@@ -27,6 +28,7 @@ function del(ans) {
 function make_active(button) {
     button.setAttribute('class','active_page');
     CURRENT_TASK = button.id.split('button')[1];
+    INPUT.value = ANSWERS[CURRENT_TASK];
     for(var i in KIM.files) {
         if(button.id!='button'+i) {
             document.getElementById('button'+i).setAttribute('class','page');
@@ -45,7 +47,7 @@ function create_button(img,text) {
 }
 function build() {
     for(var i in KIM.files) {
-        ANSWERS[i] = null;
+        ANSWERS[i] = '';
     }
     var buttons = document.getElementById('buttons');
     buttons.innerHTML += create_button(KIM.files['i'],'i');

@@ -36,7 +36,9 @@ textarea {
     width:50px;
     height:50px;
     font-size:20;
-    background-color:rgb(0,0,150);
+    font-family:Times New Roman;
+    font-weight:bold;
+    background-color:rgb(147, 147, 255);
     border-radius:5px;
     border: solid rgb(200,200,255) 1px;
     cursor:pointer;
@@ -49,6 +51,16 @@ textarea {
     border-radius:5px;
     border:1px solid rgb(0,100,100);
     cursor:pointer;
+}
+.end {
+    background-color:rgb(0,255,170);
+    color:rgb(0,100,100);
+    width:200px;
+    height:70px;
+    border-radius:5px;
+    border:1px solid rgb(0,100,100);
+    cursor:pointer;
+    font-size:30;
 }
 .clear {
     background-color:rgb(255,255,255);

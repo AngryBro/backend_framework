@@ -2,9 +2,7 @@
 	<head>
 		<title>Авторизация</title>
 			<?php
-				if(isset($alert)) {
-					echo $alert;
-				}
+				echo $alert;
 			?>
 	</head>
 	<body>

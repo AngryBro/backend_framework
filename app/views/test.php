@@ -16,14 +16,14 @@
 				<td style='width:800px;height:800px'>
 				<img id='img' alt='картинка'>
 				</td>
-				<td valign='top'>
-					<table>
-						<tr>
-							<td>
+				<td id='input_ans'>
+					<table style='height:800px'>
+						<tr valign='top'>
+							<td style='height:200px'>
 								<textarea id='answer' onclick='enable_button("save","save")' onchange='enable_button("save","save")'></textarea>
 							</td>
 						</tr>
-						<tr>
+						<tr valign='top'>
 							<td>
 								<table>
 									<tr>
@@ -31,13 +31,15 @@
 											<button class='clear' id='clear' onclick='del(answer)'>Очистить</button>
 										</td>
 										<td>
-											<button class='save' id='save' onclick='save(current_task.value,answer.value,this)'>Сохранить</button>
-										</td>
-										<td>
-											<input hidden id='current_task' value='0'></input>
+											<button class='save' id='save' onclick='save(answer.value)'>Сохранить</button>
 										</td>
 									</tr>
 								</table>
+							</td>
+						</tr>
+						<tr valign='bottom'>
+							<td>
+								<button class='end'>Завершить экзамен</button>
 							</td>
 						</tr>
 					</table>

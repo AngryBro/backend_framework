@@ -26,8 +26,23 @@ class Test extends Model {
 		return $params;
 	}
 
-	public function send() {
-		//
+	public function check($result,$user) {
+		$kim_name = $result['kim'];
+		$right_ans = $this->kimsDB->get($kim_name)['answers'];
+		$answers = $result['answers'];
+		$final = [];
+		foreach($right_ans as $task => $ans) {
+			$final[$task] = [
+				'right' => $ans,
+				'actual' => $answers[$task],
+				'correct' => $ans==$answers[$task]
+			];
+		}
+		$this->testDB->push_data([
+			'user' => $user,
+			'kim' => $kim_name,
+			'result' => $final
+		]);
 	}
 	
 }

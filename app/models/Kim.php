@@ -66,7 +66,7 @@ class Kim extends Model {
 		$kim_files['i'] = md5('kim'.$kim_number.'info').'.png';
 		$kim_info = [
 			'task_count' => $task_count,
-			'ans' => $kim_ans,
+			'answers' => $kim_ans,
 			'files' => $kim_files
 		];
 		if(count($errors)) {

@@ -20,6 +20,21 @@ class AdminController extends Controller {
 		}
 	}
 	
+	public function results() {
+		if($this->access()) {
+			$admin = new Admin;
+			$params = [
+				'json' => json_encode($admin->getResults())
+			];
+			$view = new View('results');
+			$view->render($params);
+		}
+		else {
+			$view = new View('page404');
+			$view->render();
+		}
+	}
+
 	public function register() {
 		$access = $this->access();
 		if($access) {

@@ -6,6 +6,9 @@
 		<h1>Админка</h1>
 		<ul>
 			<li>
+				<a href='/admin/results'>Результаты тестов</a>
+			</li>
+			<li>
 				<a href='/test'>Страница теста</a>
 			</li>
 			<li>

@@ -7,3 +7,4 @@ Route::add('/admin','Admin');
 Route::add('/admin/unregister','Admin','unregister');
 Route::add('/admin/addkim','Kim','addkim');
 Route::add('/admin/delkim','Kim','delkim');
+Route::add('/admin/results','Admin','results');

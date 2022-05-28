@@ -1,8 +1,8 @@
 <html>
 	<head>
-		<title>404</title>
+		<title>Sample</title>
 	</head>
 	<body>
-		<h1>Not found</h1>
+		<h1>Sample</h1>
 	</body>
 </html>

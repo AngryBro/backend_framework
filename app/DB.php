@@ -8,6 +8,9 @@ class DB {
 	
 	public function __construct($dbname) {
 		$this->path = '../database/'.$dbname.'.json';
+		if(filesize($this->path)==0) {
+			file_put_contents($this->path,'{}');
+		}
 		$this->file = file_get_contents($this->path);
 		$this->content = json_decode($this->file,true);
 	}
@@ -28,6 +31,25 @@ class DB {
 	public function keys() {
 		$keys = array_keys($this->content);
 		return $keys;
+	}
+	public function push_data($data) {
+		if(array_key_exists('data',$this->content)) {
+			$existing_data = $this->content['data'];
+			array_push($existing_data,$data);
+			$this->content = [
+				'data' => $existing_data
+			];
+		}
+		else {
+			$this->content = [
+				'data' => [$data]
+			];
+		}
+		$this->file = json_encode($this->content);
+		file_put_contents($this->path,$this->file);
+	}
+	public function get_data() {
+		return $this->content['data'];
 	}
 	public function exists($key) {
 		return array_key_exists($key,$this->content);

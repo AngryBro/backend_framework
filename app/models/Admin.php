@@ -5,9 +5,11 @@ include '../app/Model.php';
 class Admin extends Model {
 
 	private $usersDB;
+	private $testDB;
 
 	public function __construct() {
 		$this->usersDB = new DB('Users');
+		$this->testDB = new DB('Test');
 	}
 
 	public function unregister($users) {
@@ -36,6 +38,11 @@ class Admin extends Model {
 	public function getUsers() {
 		$users = $this->usersDB->keys();
 		return $users;
+	}
+
+	public function getResults() {
+		$results = $this->testDB->get_data();
+		return $results;
 	}
 
 	public function sample() {

@@ -39,7 +39,10 @@
 						</tr>
 						<tr valign='bottom'>
 							<td>
-								<button class='end'>Завершить экзамен</button>
+								<form action='/test' method='post'>
+									<input id='saved_answers' hidden name='json' value=''></input>
+								<button class='end' type='submit'>Завершить экзамен</button>
+								</form>
 							</td>
 						</tr>
 					</table>

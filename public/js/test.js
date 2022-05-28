@@ -1,9 +1,28 @@
 var KIM = {
-    files: getKim('json')['files']
+    files: getKim('json')['files'],
+    name: getKim('json')['name']
 };
 var ANSWERS = {};
+var JSON_ANSWERS = document.getElementById('saved_answers');
 var CURRENT_TASK = 'i';
 var INPUT = document.getElementById('answer');
+// async function send() {
+//     var url = '/test';
+//     var form = new FormData();
+//     delete ANSWERS.i;
+//     var json = {
+//         answers: ANSWERS,
+//         kim: KIM.name
+//     };
+//     form.set('json',JSON.stringify(json));
+//     await fetch(url,{
+//         method: 'POST',
+//         body: form,
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     });
+// }
 function getKim(json_id) {
     var json_div = document.getElementById('json');
     var json = json_div.innerHTML;
@@ -20,6 +39,11 @@ function enable_button(button_id,class_) {
 function save(ans) {
     document.getElementById('save').setAttribute('class','disabled');
     ANSWERS[CURRENT_TASK] = ans;
+    var json = {
+        answers: ANSWERS,
+        kim: KIM.name
+    };
+    JSON_ANSWERS.value = JSON.stringify(json);
 }
 function del(ans) {
     ans.value = '';
@@ -49,6 +73,7 @@ function build() {
     for(var i in KIM.files) {
         ANSWERS[i] = '';
     }
+    JSON_ANSWERS.value = JSON.stringify({kim:KIM.name,answers:ANSWERS});
     var buttons = document.getElementById('buttons');
     buttons.innerHTML += create_button(KIM.files['i'],'i');
     var infbutton = document.getElementById('buttoni');

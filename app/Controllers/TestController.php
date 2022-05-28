@@ -13,12 +13,19 @@ class TestController extends Controller {
 		$test = new Test;
 		$params = $test->load($_SESSION['user']);
 		if($access) {
-			if($_POST['ready']=='ready') {
-				$view = new View('test');
-			}
-			else {
+			if(empty($_POST)) {
 				$view = new View('test_start');
 				$params = json_decode($params,true)['name'];
+			}
+			else {
+				if(isset($_POST['ready'])) {
+					$view = new View('test');
+				}
+				if(isset($_POST['json'])) {
+					$result = json_decode($_POST['json'],true);
+					$test->check($result,$_SESSION['user']);
+					$view = new View('test_end');
+				}
 			}
 			$view->render([
 				'json' => $params

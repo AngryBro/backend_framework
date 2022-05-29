@@ -49,7 +49,12 @@ class DB {
 		file_put_contents($this->path,$this->file);
 	}
 	public function get_data() {
-		return $this->content['data'];
+		if(isset($this->content['data'])) {
+			return $this->content['data'];
+		}
+		else {
+			return [];
+		}
 	}
 	public function exists($key) {
 		return array_key_exists($key,$this->content);

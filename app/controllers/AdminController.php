@@ -20,6 +20,19 @@ class AdminController extends Controller {
 		}
 	}
 	
+	function single_result($id) {
+		if(!$this->access()) {
+			$view = new View('page404');
+			return;
+		}
+		$admin = new Admin;
+		$view = new View('single_result');
+		$params = [
+			'id' => $id
+		];
+		$view->render($params);
+	}
+
 	public function results() {
 		if($this->access()) {
 			$admin = new Admin;

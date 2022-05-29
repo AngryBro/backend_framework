@@ -28,7 +28,8 @@ class AdminController extends Controller {
 		$admin = new Admin;
 		$view = new View('single_result');
 		$params = [
-			'id' => $id
+			'id' => $id,
+			'json' => json_encode($admin->getResults()[$id-1])
 		];
 		$view->render($params);
 	}

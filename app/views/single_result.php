@@ -1,25 +1,27 @@
 <html>
 	<head>
 		<title>Result</title>
-		<meta id='result' content='{}'>
+		<meta id='json' content='<?php echo $json ?>'>
+		<script defer src='/js/single_result.js'></script>
+		<link rel='stylesheet' href='/css/single_result.css'>
 	</head>
 	<body>
-		<h1 id='title'><?php echo $id; ?></h1>
+		<h1 id='title'></h1>
 		<table id='table'>
 			<tr id='numbers'>
-				<td>
+				<th>
 					Номер задания
-				</td>
+				</th>
 			</tr>
 			<tr id='actual_answers'>
-				<td>
+				<th>
 					Данный ответ
-				</td>
+				</th>
 			</tr>
 			<tr id='correct_answers'>
-				<td>
+				<th>
 					Верный ответ
-				</td>
+				</th>
 			</tr>
 		</table>
 	</body>

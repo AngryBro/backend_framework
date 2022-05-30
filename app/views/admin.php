@@ -23,6 +23,9 @@
 			<li>
 				<a href='/admin/delkim'>Удалить КИМ</a>
 			</li>
+			<li>
+				<a href='/'>Выйти</a>
+			</li>
 		</ul>
 	</body>
 </html>

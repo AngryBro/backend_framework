@@ -7,7 +7,7 @@
 	<body>
 		<div hidden id='json'><?php echo $json ?></div>
 		<h1>Тестовая страница</h1>
-		<table class='app'>
+		<table class='app' id='app'>
 			<tr>
 				<td style='overflow:scroll'>
 					<table id='buttons' style='display:block;height:800px;width:60px'>
@@ -39,15 +39,29 @@
 						</tr>
 						<tr valign='bottom'>
 							<td>
-								<form action='/test' method='post'>
-									<input id='saved_answers' hidden name='json' value=''></input>
-								<button class='end' type='submit'>Завершить экзамен</button>
-								</form>
+								<button class='end' onclick='end_exam()'>Завершить экзамен</button>
 							</td>
 						</tr>
 					</table>
+					<form hidden action='/test' method='post' id='send_form'>
+						<input id='saved_answers' name='json'></input>
+					</form>
 				</td>
 			</tr>
 		</table>
+		<div id='end_exam' hidden>
+			<table id='answers_table'>
+				<tr>
+					<th>
+						№
+					</th>
+					<th>
+						Ваш ответ
+					</th>
+				</tr>
+			</table>
+			<button onclick='back_to_test()'>Назад</button>
+			<button onclick='send()'>Завершить экзамен</button>
+		</div>
 	</body>
 </html>

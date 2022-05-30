@@ -6,23 +6,39 @@ var ANSWERS = {};
 var JSON_ANSWERS = document.getElementById('saved_answers');
 var CURRENT_TASK = 'i';
 var INPUT = document.getElementById('answer');
-// async function send() {
-//     var url = '/test';
-//     var form = new FormData();
-//     delete ANSWERS.i;
-//     var json = {
-//         answers: ANSWERS,
-//         kim: KIM.name
-//     };
-//     form.set('json',JSON.stringify(json));
-//     await fetch(url,{
-//         method: 'POST',
-//         body: form,
-//         headers: {
-//             'Content-Type': 'application/json'
-//         }
-//     });
-// }
+
+function back_to_test() {
+    document.getElementById('end_exam').hidden = true;
+    document.getElementById('app').hidden = false;
+}
+function send() {
+    var form = document.getElementById('send_form');
+    delete ANSWERS['i'];
+    document.getElementById('saved_answers').value=JSON.stringify({
+        'answers':ANSWERS,
+        'kim':KIM.name
+        });
+    form.submit();
+}
+function unparser(str) {
+    str = str.split('|').join('<br>');
+    return str;
+}
+function end_exam() {
+    var app = document.getElementById('app');
+    app.hidden = true;
+    document.getElementById('end_exam').hidden = false;
+    var answers_table = document.getElementById('answers_table');
+    for(var i in ANSWERS) {
+        if(i=='i') continue;
+        answers_table.innerHTML += `
+            <tr>
+                <td>`+i+`</td>
+                <td>`+unparser(ANSWERS[i])+`</td>
+            </tr>
+        `;
+    }
+}
 function getKim(json_id) {
     var json_div = document.getElementById('json');
     var json = json_div.innerHTML;

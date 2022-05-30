@@ -49,9 +49,11 @@ class DB {
 		file_put_contents($this->path,$this->file);
 	}
 
-	public function delete_data($id) {
+	public function delete_data($ids) {
 		$data = $this->content['data'];
-		unset($data[$id]);
+		foreach($ids as $id) {
+			unset($data[$id]);
+		}
 		$data = array_values($data);
 		$this->content['data'] = $data;
 		$this->file = json_encode($this->content);

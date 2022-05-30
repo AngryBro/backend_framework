@@ -40,12 +40,14 @@ function check_to_delete(checkbox) {
 function delete_results() {
     var form = document.getElementById('form_to_delete');
     var delele_json = document.getElementById('delete_json');
+    var results_to_delete = [];
     for(var i in RESULTS_TO_DELETE) {
-        if(!RESULTS_TO_DELETE[i]) {
-            RESULTS_TO_DELETE[i].remove();
+        if(i=='count') continue;
+        if(RESULTS_TO_DELETE[i]) {
+            results_to_delete.push(i);
         }
     }
-    delele_json.value = JSON.stringify(Object.keys(RESULTS_TO_DELETE));
+    delele_json.value = JSON.stringify(results_to_delete);
     form.submit();
 }
 make_list();

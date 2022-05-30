@@ -10,7 +10,6 @@ class AuthController extends Controller {
 			$view->render();
 		}
 		else {
-			session_start();
 			$auth = new Auth;
 			$authed = $auth->login($_POST);
 			if($authed) {

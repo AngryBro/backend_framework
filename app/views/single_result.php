@@ -6,23 +6,15 @@
 		<link rel='stylesheet' href='/css/single_result.css'>
 	</head>
 	<body>
-		<h1 id='title'></h1>
+		<h1><a id='header' href='/admin/results'></a></h1>
 		<table id='table'>
-			<tr id='numbers'>
-				<th>
-					Номер задания
-				</th>
-			</tr>
-			<tr id='actual_answers'>
-				<th>
-					Данный ответ
-				</th>
-			</tr>
-			<tr id='correct_answers'>
-				<th>
-					Верный ответ
-				</th>
+			<tr>
+				<th>Номер</th>
+				<th>Данный ответ</th>
+				<th id='correct_answers'>Верный ответ</th>
 			</tr>
 		</table>
+		<br><br>
+		<button id='trigger' onclick = 'trigger_correct_ans()'>Скрыть верные ответы</button>
 	</body>
 </html>

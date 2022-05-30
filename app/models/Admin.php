@@ -45,6 +45,13 @@ class Admin extends Model {
 		return $results;
 	}
 
+	public function deleteResults($results) {
+		$results = json_decode($results,false);
+		foreach($results as $id) {
+			$this->testDB->delete_data($id-1);
+		}
+	}
+
 	public function sample() {
 		//
 	}

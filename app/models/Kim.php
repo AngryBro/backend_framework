@@ -39,13 +39,16 @@ class Kim extends Model {
 		}
 		$kim_data = scandir($tmp_path);
 		$kim_data = array_diff($kim_data,['.','..']);
-		if(!file_exists($tmp_path.'/ans.json')) {
-			array_push($errors,'No file ans.json');
+		if(!file_exists($tmp_path.'/answers.json')) {
+			array_push($errors,'No file answers.json');
 			$kim_ans = [];
 		}
 		else {
-			$kim_ans = file_get_contents($tmp_path.'/ans.json');
+			$kim_ans = file_get_contents($tmp_path.'/answers.json');
 			$kim_ans = json_decode($kim_ans,true);
+			foreach($kim_ans as $task => $ans) {
+				$kim_ans[$task] = $this->parser($ans);
+			}
 		}
 		$task_count = 0;
 		for($i=1; array_key_exists($i,$kim_ans); $i++) {
@@ -87,6 +90,12 @@ class Kim extends Model {
 			}
 		}
 		return $msg;
+	}
+
+	private function parser($str) {
+		$str_arr = explode(' ',$str);
+		$str = implode('',$str_arr);
+		return $str;
 	}
 
 	public function delete($post) {

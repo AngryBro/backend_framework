@@ -37,6 +37,9 @@ class AdminController extends Controller {
 	public function results() {
 		if($this->access()) {
 			$admin = new Admin;
+			if(isset($_POST['delete'])) {
+				$admin->deleteResults($_POST['delete']);
+			}
 			$params = [
 				'json' => json_encode($admin->getResults())
 			];
@@ -97,5 +100,4 @@ class AdminController extends Controller {
 			]);
 		}
 	}
-
 }

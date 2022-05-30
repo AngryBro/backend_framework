@@ -48,6 +48,16 @@ class DB {
 		$this->file = json_encode($this->content);
 		file_put_contents($this->path,$this->file);
 	}
+
+	public function delete_data($id) {
+		$data = $this->content['data'];
+		unset($data[$id]);
+		$data = array_values($data);
+		$this->content['data'] = $data;
+		$this->file = json_encode($this->content);
+		file_put_contents($this->path,$this->file);
+	}
+
 	public function get_data() {
 		if(isset($this->content['data'])) {
 			return $this->content['data'];

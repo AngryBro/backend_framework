@@ -29,6 +29,11 @@ function getKim(json_id) {
     json = JSON.parse(json);
     return json;
 }
+function parser(str) {
+    str = str.split(' ').join('');
+    str = str.split('\n').join('|');
+    return str;
+}
 function disable_button(button) {
     //button.setAttribute('disabled',true);
     button.setAttribute('class','disabled');
@@ -38,7 +43,7 @@ function enable_button(button_id,class_) {
 }
 function save(ans) {
     document.getElementById('save').setAttribute('class','disabled');
-    ANSWERS[CURRENT_TASK] = ans;
+    ANSWERS[CURRENT_TASK] = parser(ans);
     var json = {
         answers: ANSWERS,
         kim: KIM.name

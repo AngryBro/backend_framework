@@ -23,7 +23,7 @@ function getJSON(id) {
 }
 function build_table(kims) {
 	var table = document.getElementById('table');
-	for(var i = 0; i<kims.length; i++) {
+	for(var i in kims) {
 		table.innerHTML += `
 			<tr>
 				<td>

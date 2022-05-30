@@ -9,11 +9,7 @@ class DebugController extends Controller {
 	}
 
 	public function index() {
-		$arr = [3,4,5];
-		var_dump($arr);
-		unset($arr[1]);
-		$arr = array_values($arr);
-		var_dump($arr);
+		var_dump($_POST);
 	}
 
 	public function debug($param) {

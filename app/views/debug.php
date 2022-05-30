@@ -4,14 +4,12 @@
 	</head>
 	<body>
 		<h1>Отладка</h1>
-		<form id='form' action='/debug/sen' method='post'>
-			<input name='key'></input>
-			<button type='submit'>gwer</button>
-		</form>
+		<input name='key'></input>
 		<script>
 			async function debug() {
-				var form = new FormData(document.getElementById('form'));
-				var url = '/index.php';
+				var form = new FormData();
+				form.set('key','value');
+				var url = '/debug';
 				var response = await fetch(url,{
 					method:'POST',
 					body:form,

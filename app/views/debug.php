@@ -9,7 +9,7 @@
 			async function debug() {
 				var form = new FormData();
 				form.set('key','value');
-				var url = '/debug';
+				var url = '/debug/send';
 				var response = await fetch(url,{
 					method:'POST',
 					body:form,

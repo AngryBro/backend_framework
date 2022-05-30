@@ -15,11 +15,11 @@ class Route {
 		];
 	}
 
-	public static function add() {
+	public static function post() {
 		$args = func_get_args();
 		$route = $args[0];
 		$controller = $args[1];
-		$method = isset($args[2])?$args[2]:'index';
+		$method = 'post';
 		self::$routes[$route] = [
 			'controller' => $controller,
 			'method' => $method

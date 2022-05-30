@@ -30,23 +30,22 @@ class KimController extends Controller {
 	}
 
 	public function delkim() {
-		if($this->access()) {
+		if($this->deny()) {
+			$view = new View('page404');
+			$view->render();
+			return;
+		}
 		$kim = new Kim;
 		$view = new View('delkim');
-			if(!empty($_POST)) {
-				$kim->delete($_POST);
-			}
-		}
-		else {
-			$view = new View('page404');
-		}
 		$view->render([
 			'kims' => json_encode(array_diff($kim->getKims(),['demo']))
 		]);
 	}
 
-	public function index() {
-		//	
+	function post() {
+		$kim = new Kim;
+		$kim->delete($_POST);
+		echo $_POST['json'];
 	}
 	
 }

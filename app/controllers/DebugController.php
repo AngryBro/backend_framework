@@ -9,11 +9,12 @@ class DebugController extends Controller {
 	}
 
 	public function index() {
-		var_dump($_POST);
+		$view = new View('debug');
+		$view->render();
 	}
 
-	public function debug($param) {
-		echo 'Called debug with param = '.$param;
+	public function debug() {
+		unlink('../public/js/sample.js');
 	}
 	
 }

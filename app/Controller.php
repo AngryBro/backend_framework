@@ -25,4 +25,7 @@ abstract class Controller {
 		session_start();
 		return ($this->roles=='all')||(in_array($_SESSION['role'],$this->roles));
 	}
+	protected function deny() {
+		return !$this->access();
+	}
 }

@@ -20,6 +20,12 @@ class AdminController extends Controller {
 		}
 	}
 	
+	function deleteResults() {
+		$admin = new Admin;
+		$ok = $admin->deleteResults($_POST);
+		echo $ok;
+	}
+
 	function single_result($id) {
 		if(!$this->access()) {
 			$view = new View('page404');
@@ -35,21 +41,15 @@ class AdminController extends Controller {
 	}
 
 	public function results() {
-		if($this->access()) {
-			$admin = new Admin;
-			if(isset($_POST['delete'])) {
-				$admin->deleteResults($_POST['delete']);
-			}
-			$params = [
-				'json' => json_encode($admin->getResults())
-			];
-			$view = new View('results');
-			$view->render($params);
+		if($this->deny()) {
+			View::show('page404');
 		}
-		else {
-			$view = new View('page404');
-			$view->render();
-		}
+		$admin = new Admin;
+		$params = [
+			'json' => json_encode($admin->getResults())
+		];
+		$view = new View('results');
+		$view->render($params);
 	}
 
 	public function register() {

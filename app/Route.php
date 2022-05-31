@@ -15,19 +15,11 @@ class Route {
 		];
 	}
 
-	public static function post() {
-		$args = func_get_args();
-		$route = $args[0];
-		$controller = $args[1];
-		$method = 'post';
+	public static function post($route,$controller,$method) {
 		self::$routes[$route] = [
 			'controller' => $controller,
 			'method' => $method
 		];
-	}
-
-	public static function view($route,$view) {
-		//
 	}
 	
 	public static function match() {

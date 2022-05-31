@@ -13,8 +13,8 @@ class DebugController extends Controller {
 		$view->render();
 	}
 
-	public function debug() {
-		unlink('../public/js/sample.js');
+	function post() {
+		//
 	}
 	
 }

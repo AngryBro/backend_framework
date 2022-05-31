@@ -6,7 +6,7 @@ function make_list() {
     var table = document.getElementById('results');
     for(var i in RESULTS) {
         table.innerHTML += `
-        <tr>
+        <tr id="result`+i+`">
             <td><a href='/admin/results/`+String(Number(i)+1)+`'>
                 `+String(Number(i)+1)+`</a>
             </td>
@@ -37,17 +37,27 @@ function check_to_delete(checkbox) {
         }
     }
 }
-function delete_results() {
-    var form = document.getElementById('form_to_delete');
-    var delele_json = document.getElementById('delete_json');
-    var results_to_delete = [];
+async function delete_results() {
+    var res = [];
+    delete RESULTS_TO_DELETE.count;
     for(var i in RESULTS_TO_DELETE) {
-        if(i=='count') continue;
         if(RESULTS_TO_DELETE[i]) {
-            results_to_delete.push(i);
+            res.push(i);
         }
     }
-    delele_json.value = JSON.stringify(results_to_delete);
-    form.submit();
+    var form = new FormData();
+    form.set('json',JSON.stringify(res));
+    var url = '/admin/results/delete';
+    var promise = await fetch(url,{
+        method: 'post',
+        body: form
+    });
+    var response = await promise.text();
+    if(response!='error') {
+        for(var i in res) {
+            RESULTS = response;
+            make_list();
+        }
+    }
 }
 make_list();

@@ -15,4 +15,8 @@ class View {
 		}
 		require $this->path;
 	}
+
+	public static function show($page) {
+		require '../app/views/'.$page.'.php';
+	}
 }

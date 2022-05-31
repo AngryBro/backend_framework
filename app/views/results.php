@@ -24,8 +24,5 @@
 		</table>
 		<br><br>
 		<button hidden id='delete_button' onclick="delete_results()">Удалить</button>
-		<form hidden method="post" action='/admin/results' id='form_to_delete'>
-			<input id='delete_json' name='delete'></input>
-		</form>
 	</body>
 </html>

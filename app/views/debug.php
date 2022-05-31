@@ -10,13 +10,11 @@
 				var form = new FormData();
 				form.set('key','value');
 				var url = '/debug/send';
-				var response = await fetch(url,{
-					method:'POST',
-					body:form,
-					headers: {
-						'Content-Type': 'form/multipart'
-					}
+				var promise = await fetch(url,{
+					method: 'post',
+					body: form
 				});
+				console.log(promise.ok);
 			}
 		</script>
 	</body>

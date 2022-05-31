@@ -15,7 +15,7 @@ function getJSON(id) {
 
 function setJSON(id,data) {
 	var json = document.getElementById(id);
-	json = json.setAttribute('value',data);
+	json.setAttribute('value',data);
 }
 
 
@@ -29,17 +29,23 @@ async function delete_kims() {
 	kims_to_delete = JSON.stringify(kims_to_delete);
 	var form = new FormData();
 	form.set('json',kims_to_delete);
-	var url = '/admin/delkim/';
-	var response = await fetch(url,{
-		method:'POST',
+	var url = '/admin/delkim/delete';
+	var promise = await fetch(url,{
+		method: 'post',
 		body: form,
-		headers: {
-			'Content-Type': 'form/multipart'
+	});
+	if(promise.ok) {
+		var response = await promise.text();
+	}
+	else {
+		var response = 'error';
+	}
+	if(response=='1') {
+		kims_to_delete = JSON.parse(kims_to_delete);
+		for(var i in kims_to_delete) {
+			document.getElementById(kims_to_delete[i]).hidden = true;
 		}
-	}); console.log(form);
-	//var r = await response.json(); console.log(r);
-	// setJSON('get',r);
-	// build_table(getJSON('get'));
+	}
 }
 
 

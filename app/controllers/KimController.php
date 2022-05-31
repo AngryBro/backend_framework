@@ -44,8 +44,8 @@ class KimController extends Controller {
 
 	function post() {
 		$kim = new Kim;
-		$kim->delete($_POST);
-		echo $_POST['json'];
+		$ok = $kim->delete($_POST);
+		echo $ok;
 	}
 	
 }

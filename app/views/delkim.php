@@ -9,6 +9,6 @@
 			<table id='table'>
 				
 			</table>
-			<button onclick='delete_kim()'>Удалить</button>
+			<button onclick='delete_kims()'>Удалить</button>
 	</body>
 </html>

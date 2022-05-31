@@ -99,10 +99,9 @@ class Kim extends Model {
 	}
 
 	public function delete($post) {
-		// if(empty($post)) {
-		// 	return;
-		// }
-		header('Location: /'.$post['json']);
+		if(empty($post)) {
+			return false;
+		}
 		$kims = json_decode($post['json'],false);
 		foreach($kims as $kim) {
 			$files = $this->kimsDB->get($kim)['files'];
@@ -111,6 +110,7 @@ class Kim extends Model {
 			}
 			$this->kimsDB->unset($kim);
 		}
+		return true;
 	}
 
 	public function getKims() {

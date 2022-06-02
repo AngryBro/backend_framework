@@ -1,55 +1,21 @@
-var kims = {};
-
+var KIMS_TO_DELETE = {};
+build_table(JSON.parse(document.getElementById('json').getAttribute('value')));
 
 function change(checkbox) {
-	kims[checkbox.value] = checkbox.checked;
+	KIMS_TO_DELETE[checkbox.value] = checkbox.checked;
 }
 
-
-function getJSON(id) {
-	var json = document.getElementById(id);
-	json = json.getAttribute('value');
-	json = JSON.parse(json);
-	return json;
-}
-
-function setJSON(id,data) {
-	var json = document.getElementById(id);
-	json.setAttribute('value',data);
-}
-
-
-async function delete_kims() {
-	var kims_to_delete = [];
-	for(var i in kims) {
-		if(kims[i]) {
-			kims_to_delete.push(i);
+function delete_kims() {
+	var kims = [];
+	for(var i in KIMS_TO_DELETE) {
+		if(KIMS_TO_DELETE[i]) {
+			kims.push(i);
 		}
 	}
-	kims_to_delete = JSON.stringify(kims_to_delete);
-	var form = new FormData();
-	form.set('json',kims_to_delete);
-	var url = '/admin/delkim/delete';
-	var promise = await fetch(url,{
-		method: 'post',
-		body: form,
-	});
-	if(promise.ok) {
-		var response = await promise.text();
-	}
-	else {
-		var response = 'error';
-	}
-	if(response=='1') {
-		kims_to_delete = JSON.parse(kims_to_delete);
-		for(var i in kims_to_delete) {
-			document.getElementById(kims_to_delete[i]).hidden = true;
-		}
-	}
+	send_async_json('/admin/delkim/delete',kims,build_table);
 }
 
-
-function build_table(kims_json) {
+function build_table(kims) {
 	var table = document.getElementById('table');
 	table.innerHTML = `
 		<tr>
@@ -57,18 +23,18 @@ function build_table(kims_json) {
 				Номер КИМ
 			</td>
 			<td>
-				Галочка
+				Отметка на удаление
 			</td>
 		</tr>
 	`;
-	for(var i in kims_json) {
+	for(var i in kims) {
 		table.innerHTML += `
-			<tr id="`+kims_json[i]+`">
+			<tr id="`+kims[i]+`">
 				<td>
-					`+kims_json[i]+`
+					`+kims[i]+`
 				</td>
 				<td>
-					<input type='checkbox' value='`+kims_json[i]+`' onchange='change(this)'></input>
+					<input type='checkbox' value='`+kims[i]+`' onchange='change(this)'></input>
 				</td>
 			</tr>
 		`

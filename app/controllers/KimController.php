@@ -42,10 +42,15 @@ class KimController extends Controller {
 		]);
 	}
 
-	function post() {
+	function deleteKims() {
 		$kim = new Kim;
 		$ok = $kim->delete($_POST);
-		echo $ok;
+		if($ok) {
+			echo json_encode($kim->getKims());
+		}
+		else {
+			echo json_encode(['error']);
+		}
 	}
 	
 }

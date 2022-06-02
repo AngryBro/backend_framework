@@ -7,7 +7,7 @@ Route::get('/admin','Admin');
 Route::get('/admin/unregister','Admin','unregister');
 Route::get('/admin/addkim','Kim','addkim');
 Route::get('/admin/delkim','Kim','delkim');
-Route::post('/admin/delkim/delete','Kim','post');
+Route::post('/admin/delkim/delete','Kim','deleteKims');
 Route::get('/admin/results','Admin','results');
 Route::get('/debug','Debug');
 Route::post('/debug/send','Debug','debug');

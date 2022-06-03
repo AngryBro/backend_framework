@@ -9,15 +9,8 @@ class AdminController extends Controller {
 	}
 
 	public function index() {
-		$access = $this->access();
-		if($access) {
-			$view = new View('admin');
-			$view->render();
-		}
-		else {
-			$view = new View('page404');
-			$view->render();
-		}
+		$this->accessable();
+		View::show('admin');
 	}
 	
 	function getResults() {
@@ -34,6 +27,7 @@ class AdminController extends Controller {
 	}
 
 	function single_result($id) {
+		$id = $id[0];
 		if(!$this->access()) {
 			$view = new View('page404');
 			return;
@@ -75,29 +69,20 @@ class AdminController extends Controller {
 	}
 
 	public function unregister() {
-		if(!$this->access()) {
-			$view = new View('page404');
-			$view->render();
-			return;
-		}
-		$view = new View('unregister');
+		$this->accessable();
+		View::show('unregister');
+	}
+
+	function getUsers() {
+		$this->accessable();
 		$admin = new Admin;
-		if(empty($_POST)) {
-			$users = $admin->getUsers();
-			$view->render([
-				'users' => $users
-			]);
-		}
-		else {
-			$json = $_POST['json'];
-			$usersArr = json_decode($json,false);
-			$success = $admin->unregister($usersArr);
-			$users = $admin->getUsers();
-			$msg = $success?'"Успешно"':'"Ошибка"';
-			$view->render([
-				'alert' => '<script>alert('.$msg.')</script>',
-				'users' => $users
-			]);
-		}
+		echo json_encode($admin->getUsers());
+	}
+
+	function deleteUsers() {
+		$this->accessable();
+		$admin = new Admin;
+		$admin->unregister($_POST);
+		echo json_encode($admin->getUsers());
 	}
 }

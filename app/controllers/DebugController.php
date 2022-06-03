@@ -1,6 +1,5 @@
 <?php
 include '../app/Controller.php';
-// include '../app/models/Sample.php';
 
 class DebugController extends Controller {
 	
@@ -8,13 +7,11 @@ class DebugController extends Controller {
 		return parent::__construct('all');
 	}
 
-	public function index() {
+	public function index($params) {
+		$params = ['params' => $params];
 		$view = new View('debug');
-		$view->render();
-	}
-
-	function post() {
-		//
+		$view->render($params);
+		var_dump($_SERVER['REQUEST_URI']);
 	}
 	
 }

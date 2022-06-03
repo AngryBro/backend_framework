@@ -13,6 +13,7 @@ class Admin extends Model {
 	}
 
 	public function unregister($users) {
+		$users = json_decode($users['json'],false);
 		$found = false;
 		foreach($users as $user) {
 			if($this->usersDB->exists($user)) {
@@ -36,7 +37,7 @@ class Admin extends Model {
 	}
 
 	public function getUsers() {
-		$users = $this->usersDB->keys();
+		$users = array_diff($this->usersDB->keys(),['admin','user']);
 		return $users;
 	}
 

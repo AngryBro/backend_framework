@@ -1,17 +1,13 @@
-<!DOCTYPE html>
 <html>
 	<head>
 		<title>Авторизация</title>
-			<?php
-				if(isset($alert)) {
-					echo $alert;
-				}
-			?>
+		<script defer src='/js/async_forms.js'></script>
+		<script defer src='/js/login.js'></script>
 	</head>
 	<body>
 		<h1>Авторизация пользователя</h1>
-		<form method='post' action='/login'>
 			<table>
+			<form id='form'>
 				<tr>
 					<td>
 						Логин:
@@ -28,14 +24,14 @@
 						<input name='password'></input>
 					</td>
 				</tr>
+			</form>
 				<tr>
 					<td>
 					</td>
 					<td>
-						<button type='submit'>Войти</button>
+						<button onclick='login()'>Войти</button>
 					</td>
 				</tr>
 			</table>
-		</form>
 	</body>
 </html>

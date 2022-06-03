@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<div hidden id='json'><?php echo $json ?></div>
-		<h1>Тестовая страница</h1>
+		<h1>КИМ</h1>
 		<table class='app' id='app'>
 			<tr>
 				<td style='overflow:scroll'>

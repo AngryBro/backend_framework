@@ -114,7 +114,7 @@ class Kim extends Model {
 	}
 
 	public function getKims() {
-		return $this->kimsDB->keys();
+		return array_diff($this->kimsDB->keys(),['demo','debug']);
 	}
 
 	public function sample() {

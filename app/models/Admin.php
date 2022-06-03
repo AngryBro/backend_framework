@@ -51,7 +51,6 @@ class Admin extends Model {
 		}
 		$ids = json_decode($post['json'],false);
 		$this->testDB->delete_data($ids);
-		return json_encode($this->getResults());
 	}
 
 	public function sample() {

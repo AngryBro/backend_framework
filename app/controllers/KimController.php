@@ -29,20 +29,11 @@ class KimController extends Controller {
 		$view->render($params);
 	}
 
-	public function delkim() {
+	function deleteKims() {
 		if($this->deny()) {
-			$view = new View('page404');
-			$view->render();
+			View::show('page404');
 			return;
 		}
-		$kim = new Kim;
-		$view = new View('delkim');
-		$view->render([
-			'kims' => json_encode(array_diff($kim->getKims(),['demo']))
-		]);
-	}
-
-	function deleteKims() {
 		$kim = new Kim;
 		$ok = $kim->delete($_POST);
 		if($ok) {
@@ -52,5 +43,19 @@ class KimController extends Controller {
 			echo json_encode(['error']);
 		}
 	}
+
+	function delkims() {
+		if($this->deny()) {
+			View::show('page404');
+			return;
+		}
+		View::show('delkim');
+	}
 	
+	function getkims() {
+		$this->accessable();
+		$kim = new Kim;
+		echo json_encode($kim->getKims());
+	}
+
 }

@@ -28,4 +28,11 @@ abstract class Controller {
 	protected function deny() {
 		return !$this->access();
 	}
+
+	protected function accessable() {
+		if($this->deny()) {
+			View::show('page404');
+			exit;
+		}
+	}
 }

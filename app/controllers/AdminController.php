@@ -20,10 +20,17 @@ class AdminController extends Controller {
 		}
 	}
 	
-	function deleteResults() {
+	function getResults() {
+		$this->accessable();
 		$admin = new Admin;
-		$ok = $admin->deleteResults($_POST);
-		echo $ok;
+		echo json_encode($admin->getResults());
+	}
+
+	function deleteResults() {
+		$this->accessable();
+		$admin = new Admin;
+		$admin->deleteResults($_POST);
+		echo json_encode($admin->getResults());
 	}
 
 	function single_result($id) {
@@ -41,15 +48,8 @@ class AdminController extends Controller {
 	}
 
 	public function results() {
-		if($this->deny()) {
-			View::show('page404');
-		}
-		$admin = new Admin;
-		$params = [
-			'json' => json_encode($admin->getResults())
-		];
-		$view = new View('results');
-		$view->render($params);
+		$this->accessable();
+		View::show('results');
 	}
 
 	public function register() {

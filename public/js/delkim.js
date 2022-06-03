@@ -1,5 +1,6 @@
+get_async_json('/admin/delkims/getkims',build_table);
+
 var KIMS_TO_DELETE = {};
-build_table(JSON.parse(document.getElementById('json').getAttribute('value')));
 
 function change(checkbox) {
 	KIMS_TO_DELETE[checkbox.value] = checkbox.checked;
@@ -12,6 +13,7 @@ function delete_kims() {
 			kims.push(i);
 		}
 	}
+	KIMS_TO_DELETE = {};
 	send_async_json('/admin/delkim/delete',kims,build_table);
 }
 
@@ -40,6 +42,3 @@ function build_table(kims) {
 		`
 	}
 }
-
-
-build_table(getJSON('get'));

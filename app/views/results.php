@@ -1,12 +1,12 @@
 <html>
 	<head>
 		<title>Results</title>
-		<meta id='json' content='<?php echo $json ?>'>
+		<script defer src='/js/async_forms.js'></script>
 		<script defer src='/js/results.js'></script>
 	</head>
 	<body>
 		<h1><a href='/admin'>Результаты тестов</a></h1>
-		<table id='results'>
+		<table id='table'>
 			<tr>
 				<td>
 					№
@@ -17,7 +17,7 @@
 				<td>
 					КИМ
 				</td>
-				<td id='delete'>
+				<td>
 					Отметка на удаление
 				</td>
 			</tr>

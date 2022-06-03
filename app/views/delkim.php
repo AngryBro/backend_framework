@@ -1,9 +1,8 @@
 <html>
 	<head>
 		<title>Удалить КИМ</title>
-		<meta id='json' value='<?php echo $kims ?>'>
-		<script defer src='/js/delkim.js'></script>
 		<script defer src='/js/async_forms.js'></script>
+		<script defer src='/js/delkim.js'></script>
 	</head>
 	<body>
 		<h1><a href='/admin'>Удалить КИМ</a></h1>

@@ -21,7 +21,7 @@
 				<a href='/admin/addkim'>Добавить КИМ</a>
 			</li>
 			<li>
-				<a href='/admin/delkim'>Удалить КИМ</a>
+				<a href='/admin/delkims'>Удалить КИМ</a>
 			</li>
 			<li>
 				<a href='/'>Выйти</a>

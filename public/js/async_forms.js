@@ -3,8 +3,10 @@ async function send_async_json(url,obj,func) {
         method: 'post',
         body: to_form(obj)
     });
-    var response = await promise.json();
-    func(response);
+    if(arguments.length>2) {
+        var response = await promise.json();
+        func(response);
+    }
 }
 
 async function get_async_json(url,func) {
@@ -19,8 +21,10 @@ async function send_async_form(url,form_id,func) {
         method: 'post',
         body: form
     });
-    var response = await promise.json();
-    func(response);
+    if(arguments.length>2) {
+        var response = await promise.json();
+        func(response);
+    }
 }
 
 function to_form(obj) {

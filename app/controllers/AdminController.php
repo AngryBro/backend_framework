@@ -19,10 +19,10 @@ class AdminController extends Controller {
 		echo json_encode($admin->getResults());
 	}
 
-	function deleteResults() {
+	function deleteResults($post) {
 		$this->accessable();
 		$admin = new Admin;
-		$admin->deleteResults($_POST);
+		$admin->deleteResults($post);
 		echo json_encode($admin->getResults());
 	}
 
@@ -46,26 +46,14 @@ class AdminController extends Controller {
 		View::show('results');
 	}
 
-	public function register() {
-		$access = $this->access();
-		if($access) {
-			$admin = new Admin;
-			$view = new View('register');
-			if(empty($_POST)) {
-				$view->render();
-			}
-			else {
-				$registered = $admin->register($_POST);
-				$msg = $registered?'"Успешно"':'"Ошибка"';
-				$view->render([
-					'alert' => '<script>alert('.$msg.')</script>'
-				]);
-			}
-		}
-		else {
-			$view = new View('page404');
-			$view->render();
-		}
+	public function register($post) {
+		$this->accessable();
+		$admin = new Admin;
+		$admin->register($post);
+	}
+
+	function registerShow() {
+		View::show('register');
 	}
 
 	public function unregister() {
@@ -79,10 +67,10 @@ class AdminController extends Controller {
 		echo json_encode($admin->getUsers());
 	}
 
-	function deleteUsers() {
+	function deleteUsers($post) {
 		$this->accessable();
 		$admin = new Admin;
-		$admin->unregister($_POST);
+		$admin->unregister($post);
 		echo json_encode($admin->getUsers());
 	}
 }

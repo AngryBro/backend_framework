@@ -1,4 +1,4 @@
-get_async_json('/admin/delkims/getkims',build_table);
+get_async_json('/admin/delkims',build_table);
 
 var KIMS_TO_DELETE = {};
 
@@ -14,7 +14,7 @@ function delete_kims() {
 		}
 	}
 	KIMS_TO_DELETE = {};
-	send_async_json('/admin/delkim/delete',kims,build_table);
+	send_async_json('/admin/delkims',kims,build_table);
 }
 
 function build_table(kims) {

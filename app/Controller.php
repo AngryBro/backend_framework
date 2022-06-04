@@ -31,8 +31,13 @@ abstract class Controller {
 
 	protected function accessable() {
 		if($this->deny()) {
-			View::show('page404');
+			http_response_code(403);
+			View::show('page403');
 			exit;
 		}
+	}
+
+	protected function redirect($url) {
+		header('Location: '.$url);
 	}
 }

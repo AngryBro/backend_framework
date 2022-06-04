@@ -7,5 +7,5 @@ function redirect(auth_data) {
     }
 }
 function login() {
-    send_async_form('/login/authentificate','form',redirect);
+    send_async_form('/login','form',redirect);
 }

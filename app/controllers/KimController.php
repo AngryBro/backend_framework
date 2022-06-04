@@ -8,15 +8,15 @@ class KimController extends Controller {
 		return parent::__construct('admin');
 	}
 
-	public function addkim() {
+	public function addkim($post) {
 		$params = [
 			'alert' => ''
 		];
 		if($this->access()) {
 			$view = new View('addkim');
-			if(!empty($_POST)) {
+			if(!empty($post)) {
 				$kim = new Kim;
-				$msg = $kim->add($_POST,$_FILES);
+				$msg = $kim->add($post,$_FILES);
 				$alert = '<script>alert("'.$msg.'")</script>';
 				$params = [
 					'alert' => $alert
@@ -29,13 +29,13 @@ class KimController extends Controller {
 		$view->render($params);
 	}
 
-	function deleteKims() {
+	function deleteKims($post) {
 		if($this->deny()) {
 			View::show('page404');
 			return;
 		}
 		$kim = new Kim;
-		$ok = $kim->delete($_POST);
+		$ok = $kim->delete($post);
 		if($ok) {
 			echo json_encode($kim->getKims());
 		}

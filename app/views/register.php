@@ -1,16 +1,13 @@
 <html>
 	<head>
 		<title>Регистрация</title>
-		<?php
-			if(isset($alert)) {
-				echo $alert;
-			}
-		?>
+		<script defer src="/js/async_forms.js"></script>
+		<script defer src="/js/register.js"></script>
 	</head>
 	<body>
 		<h1><a href='/admin'>Регистрация пользователя</a></h1>
-		<form method='post' action='/admin/register'>
 			<table>
+			<form id='form'>
 				<tr>
 					<td>
 						Логин:
@@ -35,14 +32,14 @@
 						<input name='kim'></input>
 					</td>
 				</tr>
+			</form>
 				<tr>
 					<td>
 					</td>
 					<td>
-						<button type='submit'>Зарегистрировать</button>
+						<button onclick="register()">Зарегистрировать</button>
 					</td>
 				</tr>
 			</table>
-		</form>
 	</body>
 </html>

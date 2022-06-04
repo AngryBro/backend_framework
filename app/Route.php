@@ -2,7 +2,8 @@
 
 class Route {
 	
-	private static $static_routes = [];
+	private static $static_get_routes = [];
+	private static $static_post_routes = [];
 	private static $dynamic_routes = [];
 	
 	public static function get() {
@@ -15,7 +16,7 @@ class Route {
 			'method' => $method,
 		];
 		if(strrpos($route,'{param}')===false) {
-			self::$static_routes[$route] = $temp;
+			self::$static_get_routes[$route] = $temp;
 		}
 		else {
 			self::$dynamic_routes[$route] = $temp;
@@ -23,7 +24,7 @@ class Route {
 	}
 
 	public static function post($route,$controller,$method) {
-		self::$static_routes[$route] = [
+		self::$static_post_routes[$route] = [
 			'controller' => $controller,
 			'method' => $method
 		];
@@ -31,10 +32,17 @@ class Route {
 	
 	public static function match() {
 		$url = $_SERVER['REQUEST_URI'];
-		if(array_key_exists($url,self::$static_routes)) {
+
+		if(array_key_exists($url,self::$static_get_routes)||array_key_exists($url,self::$static_post_routes)) {
+			if(empty($_POST)) {
+				return [
+					'matched' => true,
+					'route' => self::$static_get_routes[$url]
+				]; 
+			}
 			return [
 				'matched' => true,
-				'route' => self::$static_routes[$url]
+				'route' => self::$static_post_routes[$url]
 			];
 		}
 		
@@ -81,12 +89,16 @@ class Route {
 			if(isset($match['params'])) {
 				$controller->$method($match['params']);
 			}
-			else {
+			elseif(empty($_POST)) {
 				$controller->$method();
+			}
+			else {
+				$controller->$method($_POST);
 			}
 		}
 		else {
 			include '../app/View.php';
+			http_response_code(404);
 			View::show('page404');
 		}
 	}

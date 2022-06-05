@@ -1,4 +1,4 @@
-get_async_json('/admin/delkims',build_table);
+get_async_json('/admin/getkims',build_table);
 
 var KIMS_TO_DELETE = {};
 

@@ -27,18 +27,22 @@ class AdminController extends Controller {
 	}
 
 	function single_result($id) {
-		$id = $id[0];
-		if(!$this->access()) {
-			$view = new View('page404');
-			return;
-		}
-		$admin = new Admin;
+		$this->accessable();
 		$view = new View('single_result');
-		$params = [
-			'id' => $id,
-			'json' => json_encode($admin->getResults()[$id-1])
-		];
-		$view->render($params);
+		$view->render();
+	}
+
+	function getResult($id) {
+		$id = (int) $id['json'];
+		$this->accessable();
+		$admin = new Admin;
+		$results = $admin->getResults();
+		if(($id<=0)||($id>count($results))) {
+			echo json_encode('error');
+		}
+		else {
+			echo json_encode($results[$id-1]);
+		}
 	}
 
 	public function results() {

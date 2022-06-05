@@ -3,7 +3,7 @@ include '../app/Controller.php';
 include '../app/models/Auth.php';
 
 class AuthController extends Controller {
-	
+
 	function authentificate($post) {
 		$auth = new Auth;
 		$authed = $auth->login($post);

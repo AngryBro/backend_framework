@@ -1,5 +1,5 @@
 var RESULTS_TO_DELETE = {count:0};
-get_async_json('/admin/results/getresults',build_table);
+async_get_json('/admin/results/get',build_table);
 
 function delete_results() {
     var results = [];
@@ -10,7 +10,7 @@ function delete_results() {
         }
     }
     RESULTS_TO_DELETE = {count:0};
-    send_async_json('/admin/results/delete',results,build_table);
+    async_post_json('/admin/results',results,build_table);
 }
 
 function build_table(results) {

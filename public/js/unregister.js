@@ -1,5 +1,5 @@
 var USERS_TO_DELETE = {};
-get_async_json('/admin/unregister/users',build_table);
+get_async_json('/admin/users',build_table);
 
 function delete_users() {
 	var users = [];
@@ -8,7 +8,7 @@ function delete_users() {
 			users.push(i);
 		}
 	}
-	send_async_json('/admin/unregister/delete',users,build_table);
+	send_async_json('/admin/unregister',users,build_table);
 }
 
 function check_to_delete(checkbox) {

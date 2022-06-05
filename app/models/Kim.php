@@ -14,11 +14,11 @@ class Kim extends Model {
 		$uploaded = $files['zip']['error']==UPLOAD_ERR_OK;
 		$errors = [];
 		if(!$uploaded) {
-			array_push($errors,'File not uploaded');
+			array_push($errors,'Файл не загружен');
 		}
 		if(empty($post)) {
-			array_push($errors,'Отсутствует номер КИМа');
-			$kim_number = -1;
+			array_push($errors,'Отсутствует идентификатор КИМа');
+			$kim_number = '';
 
 		}
 		else {
@@ -37,10 +37,13 @@ class Kim extends Model {
 			}
 			unlink($zip_path);
 		}
+		else {
+			array_push($errors,'Архив не перемещён');
+		}
 		$kim_data = scandir($tmp_path);
 		$kim_data = array_diff($kim_data,['.','..']);
 		if(!file_exists($tmp_path.'/answers.json')) {
-			array_push($errors,'No file answers.json');
+			array_push($errors,'Нет файла answers.json');
 			$kim_ans = [];
 		}
 		else {
@@ -50,46 +53,46 @@ class Kim extends Model {
 				$kim_ans[$task] = $this->parser($ans);
 			}
 		}
-		$task_count = 0;
-		for($i=1; array_key_exists($i,$kim_ans); $i++) {
-			$task_count++;
-		}
-		for($i=1; $i<=$task_count; $i++) {
+		$task_numbers = array_keys($kim_ans);
+		foreach($task_numbers as $i) {
 			if(!in_array($i.'.png',$kim_data)) {
-				array_push($errors,'No file '.$i.'.png');
+				array_push($errors,'Нет файла '.$i.'.png');
 			}
 		}
 		if(!in_array('info.png',$kim_data)) {
-			array_push($errors,'No file info.png');
+			array_push($errors,'Нет файла info.png');
 		}
 		$kim_files = [];
-		for($i=1;$i<=$task_count;$i++) {
+		foreach($task_numbers as $i) {
 			$kim_files[$i] = md5('kim'.$kim_number.'number'.$i).'.png';
 		}
 		$kim_files['i'] = md5('kim'.$kim_number.'info').'.png';
 		$kim_info = [
-			'task_count' => $task_count,
 			'answers' => $kim_ans,
 			'files' => $kim_files
 		];
 		if(count($errors)) {
-			$join = implode('\n',$errors);
-			$msg = 'Ошибки:\n'.$join;
+			$response = [
+				'ok' => false,
+				'errors' => $errors
+			];
 		}
 		else {
-			for($i=1;$i<=$task_count;$i++) {
+			foreach($task_numbers as $i) {
 				copy($tmp_path.'/'.$i.'.png','img/'.$kim_files[$i]);
 			}
 			copy($tmp_path.'/info.png','img/'.$kim_files['i']);
 			$this->kimsDB->set($kim_number,$kim_info);
-			$msg = 'Успешно';
+			$response = [
+				'ok' => true
+			];
 		}
 		if(count($kim_data)) {
 			foreach($kim_data as $file) {
 				unlink($tmp_path.'/'.$file);
 			}
 		}
-		return $msg;
+		return $response;
 	}
 
 	private function parser($str) {
@@ -114,7 +117,7 @@ class Kim extends Model {
 	}
 
 	public function getKims() {
-		return array_diff($this->kimsDB->keys(),['demo','debug']);
+		return array_diff($this->kimsDB->keys());
 	}
 
 	public function sample() {

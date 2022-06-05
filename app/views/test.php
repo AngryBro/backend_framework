@@ -1,12 +1,15 @@
 <html>
 	<head>
 		<title>Тест</title>
+		<script defer src='/js/async_forms.js'></script>
 		<script defer src='/js/test.js'></script>
 		<link rel='stylesheet' href='/css/test.css'>
 	</head>
 	<body>
-		<div hidden id='json'><?php echo $json ?></div>
-		<h1>КИМ</h1>
+<div id='start_exam' hidden>
+		<button onclick='start()' class='start'>start</button>
+</div>
+<div id='test' hidden>
 		<table class='app' id='app'>
 			<tr>
 				<td style='overflow:scroll'>
@@ -14,7 +17,7 @@
 					</table>
 				</td>
 				<td style='width:800px;height:800px'>
-				<img id='img' alt='картинка'>
+				<img id='img' alt='ошибка загрузки задания'>
 				</td>
 				<td id='input_ans'>
 					<table style='height:800px'>
@@ -39,17 +42,15 @@
 						</tr>
 						<tr valign='bottom'>
 							<td>
-								<button class='end' onclick='end_exam()'>Завершить экзамен</button>
+								<button class='end' onclick='end()'>Завершить экзамен</button>
 							</td>
 						</tr>
 					</table>
-					<form hidden action='/test' method='post' id='send_form'>
-						<input id='saved_answers' name='json'></input>
-					</form>
 				</td>
 			</tr>
 		</table>
-		<div id='end_exam' hidden>
+</div>
+<div id='end_exam' hidden>
 			<table id='answers_table'>
 				<tr>
 					<th>
@@ -62,6 +63,10 @@
 			</table>
 			<button onclick='back_to_test()'>Назад</button>
 			<button onclick='send()'>Завершить экзамен</button>
-		</div>
+</div>
+<div id='sent' hidden>
+			<h1>Экзамен завершён</h1>
+			Результаты экзамена уже у админа
+</div>
 	</body>
 </html>

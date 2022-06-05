@@ -5,7 +5,15 @@ class Route {
 	private static $static_get_routes = [];
 	private static $static_post_routes = [];
 	private static $dynamic_routes = [];
+	private static $default = ['set' => false];
 	
+	static function default($url) {
+		self::$default = [
+			'set' => true,
+			'url' => $url
+		];
+	}
+
 	public static function get() {
 		$args = func_get_args();
 		$route = $args[0];
@@ -80,6 +88,10 @@ class Route {
 	}
 	
 	public static function run() {
+		if(($_SERVER['REQUEST_URI']=='/')&&self::$default['set']) {
+			header('Location: '.self::$default['url']);
+			return;
+		}
 		$match = self::match();
 		if($match['matched']) {
 			$controller = $match['route']['controller'];

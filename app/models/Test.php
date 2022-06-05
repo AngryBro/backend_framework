@@ -14,6 +14,10 @@ class Test extends Model {
 		$this->usersDB = new DB('Users');
 	}
 
+	function getKimName($user) {
+		return json_encode($this->usersDB->get($user)['kim']);
+	}
+
 	public function load($user) {
 		$name = $this->usersDB->get($user)['kim'];
 		$kim = $this->kimsDB->get($name);
@@ -26,10 +30,9 @@ class Test extends Model {
 		return $params;
 	}
 
-	public function check($result,$user) {
-		$kim_name = $result['kim'];
+	public function check($answers,$user) {
+		$kim_name = $this->usersDB->get($user)['kim'];
 		$right_ans = $this->kimsDB->get($kim_name)['answers'];
-		$answers = $result['answers'];
 		$final = [];
 		foreach($right_ans as $task => $ans) {
 			$final[$task] = [
@@ -41,7 +44,7 @@ class Test extends Model {
 		$this->testDB->push_data([
 			'user' => $user,
 			'kim' => $kim_name,
-			'result' => $final
+			'answers' => $final
 		]);
 	}
 	

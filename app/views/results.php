@@ -7,7 +7,6 @@
 	<body>
 		<h1><a href='/admin'>Результаты тестов</a></h1>
 		<table id='table'>
-			
 		</table>
 		<br><br>
 		<button hidden id='delete_button' onclick="delete_results()">Удалить</button>

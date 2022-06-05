@@ -1,14 +1,13 @@
 <html>
 	<head>
 		<title>Добавить КИМ</title>
-		<?php
-			echo $alert;
-		?>
+		<script defer src="/js/async_forms.js"></script>
+		<script defer src="/js/addkim.js"></script>
 	</head>
 	<body>
 		<h1><a href='/admin'>Добавить КИМ</a></h1>
-		<form method='post' enctype='multipart/form-data' action='/admin/addkim'>
 			<table>
+			<form id='form'>
 				<tr>
 					<td>
 						Номер КИМ:
@@ -25,14 +24,14 @@
 						<input type='file' name='zip'></input>
 					</td>
 				</tr>
+			</form>
 				<tr>
 					<td>
 					</td>
 					<td>
-						<button type='submit'>Добавить</button>
+						<button onclick='add()'>Добавить</button>
 					</td>
 				</tr>
 			</table>
-		</form>
 	</body>
 </html>

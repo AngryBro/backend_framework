@@ -7,7 +7,6 @@
 	<body>
 		<h1><a href='/admin'>Удалить пользователя</a></h1>
 		<table id='table'>
-			
 		</table>
 		<button onclick='delete_users()'>Удалить</button>
 	</body>

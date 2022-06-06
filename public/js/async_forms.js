@@ -9,6 +9,10 @@ async function send_async_json(url,obj,func) {
     }
 }
 
+async function async_request(url) {
+    var promise = await fetch(url);
+}
+
 async function get_async_json(url,func) {
     var promise = await fetch(url);
     if(arguments.length>1) {

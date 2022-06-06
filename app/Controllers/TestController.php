@@ -13,6 +13,14 @@ class TestController extends Controller {
 		View::show('test');
 	}
 	
+	function start() {
+		$this->accessable();
+		$test = new Test;
+		$view = new View('test_start');
+		$params = ['id' => $test->getKimName($_SESSION['user'])];
+		$view->render($params);
+	}
+
 	public function send($request) {
 		$this->accessable();
 		$test = new Test;
@@ -29,6 +37,14 @@ class TestController extends Controller {
 		$this->accessable();
 		$test = new Test;
 		echo $test->getKimName($_SESSION['user']);
+	}
+
+	function download($file) {
+		$this->accessable();
+		$file = explode('-',$file);
+		$file = implode('.',$file);
+		$test = new Test;
+		$test->download($file,$_SESSION['user']);
 	}
 
 }

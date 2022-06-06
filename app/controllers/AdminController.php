@@ -27,6 +27,11 @@ class AdminController extends Controller {
 	}
 
 	function single_result($id) {
+		$admin = new Admin;
+		$results = $admin->getResults();
+		if(($id<=0)||($id>count($results))) {
+			$this->abort(404);
+		}
 		$this->accessable();
 		$view = new View('single_result');
 		$view->render();
@@ -37,12 +42,7 @@ class AdminController extends Controller {
 		$this->accessable();
 		$admin = new Admin;
 		$results = $admin->getResults();
-		if(($id<=0)||($id>count($results))) {
-			echo json_encode('error');
-		}
-		else {
-			echo json_encode($results[$id-1]);
-		}
+		echo json_encode($results[$id-1]);
 	}
 
 	public function results() {

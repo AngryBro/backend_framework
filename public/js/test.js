@@ -1,8 +1,9 @@
 var ANSWERS = {};
 var CURRENT_TASK = 'i';
 var INPUT = document.getElementById('answer');
+var FILES_LINKS = {};
 
-async_get_json('/test/name',build_start);
+start();
 
 function start() {
     async_get_json('/test/data',build_test);
@@ -16,16 +17,27 @@ function send() {
     delete ANSWERS.i;
     async_post_json('/test',ANSWERS);
     view('sent');
+    setTimeout(logout,3000);
+}
+
+function logout() {
+    location.href = '/logout';
 }
 
 function build_end() {
     var answers_table = document.getElementById('answers_table');
+    answers_table.innerHTML = `
+        <tr>
+            <th class='answer'>№</th>
+            <td class='answer'>Ваш ответ</td>
+        </tr>
+    `;
     for(var i in ANSWERS) {
         if(i=='i') continue;
         answers_table.innerHTML += `
             <tr>
-                <th>`+i+`</th>
-                <td>`+unparser(ANSWERS[i])+`</td>
+                <th class='answer'>`+i+`</th>
+                <td class='answer'>`+unparser(ANSWERS[i])+`</td>
             </tr>
         `;
     }
@@ -35,6 +47,12 @@ function build_end() {
 function build_test(kimData) {
     for(var i in kimData.files) {
         ANSWERS[i] = '';
+    }
+    FILES_LINKS = kimData.additional_files;
+    for(var i in FILES_LINKS) {
+        for(var j in FILES_LINKS[i]) {
+            FILES_LINKS[i][j] = FILES_LINKS[i][j].split('.').join('-');
+        }
     }
     var buttons = document.getElementById('buttons');
     buttons.innerHTML += create_button(kimData.files['i'],'i');
@@ -48,12 +66,6 @@ function build_test(kimData) {
         }
     }
     view('test');
-}
-
-function build_start(name) {
-    var start_exam = document.getElementById('start_exam');
-    start_exam.innerHTML = `<h1>КИМ `+name+`</h1>`+start_exam.innerHTML;
-    view('start_exam'); 
 }
 
 function view(id) {
@@ -94,6 +106,22 @@ function make_active(button) {
     button.setAttribute('class','active_page');
     CURRENT_TASK = button.id.split('button')[1];
     INPUT.value = ANSWERS[CURRENT_TASK];
+    var links = document.getElementById('additional_files');
+    if(CURRENT_TASK in FILES_LINKS) {
+        links.innerHTML = `
+                Прилагаемые файлы:
+            `;
+        for(var i in FILES_LINKS[CURRENT_TASK]) {
+            links.innerHTML += `
+                <li><a target='blank' href='/test/download/`+
+                FILES_LINKS[CURRENT_TASK][i]+
+                `'>`+FILES_LINKS[CURRENT_TASK][i].split('-').join('.')+`</a></li>
+            `;
+        }
+    }
+    else {
+        links.innerHTML = '';
+    }
 }
 function create_button(img,text) {
     return `

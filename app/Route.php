@@ -99,7 +99,12 @@ class Route {
 			include '../app/controllers/'.$controller.'Controller.php';
 			eval('$controller = new '.$controller.'Controller;');
 			if(isset($match['params'])) {
-				$controller->$method($match['params']);
+				if(count($match['params'])==1) {
+					$controller->$method($match['params'][0]);
+				}
+				else {
+					$controller->$method($match['params']);
+				}
 			}
 			elseif(empty($_POST)) {
 				$controller->$method();

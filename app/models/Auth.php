@@ -24,5 +24,14 @@ class Auth extends Model {
 		return false;
 	}
 
+	function logout() {
+		session_start();
+    	unset($_SESSION['user']);
+    	unset($_SESSION['role']);
+		session_destroy();
+		unset($_COOKIE['PHPSESSID']);
+		setcookie('PHPSESSID', null, -1, '/');
+	}
+
 }
 

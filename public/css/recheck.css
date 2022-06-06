@@ -1,0 +1,30 @@
+.answers {
+    border-collapse: collapse;
+    border: 1px solid black;
+    font-size: 20;
+}
+.send {
+    background-color:rgb(0,255,170);
+    color:rgb(0,100,100);
+    width:150px;
+    height:50px;
+    border-radius:5px;
+    border:1px solid rgb(0,100,100);
+    cursor:pointer;
+    font-size:20;
+}
+.stay {
+    background-color:rgb(255,255,255);
+    color:rgb(255,150,150);
+    width:100px;
+    height:50px;
+    border-radius:5px;
+    border:1px solid rgb(255,150,150);
+    cursor:pointer;
+    font-size: 20;
+}
+.answer {
+    background-color:rgb(233, 251, 255);
+    border: 1px solid black;
+    text-align: center;
+}

@@ -62,6 +62,20 @@ class Kim extends Model {
 		if(!in_array('info.png',$kim_data)) {
 			array_push($errors,'Нет файла info.png');
 		}
+		$kim_additional_files = [];
+		if(!in_array('files.json',$kim_data)) {
+			array_push($errors,'Нет файла files.json');
+		}
+		else {
+			$kim_additional_files = json_decode(file_get_contents($tmp_path.'/files.json'),true);
+			foreach($kim_additional_files as $task) {
+				foreach($task as $file) {
+					if(!in_array($file,$kim_data)) {
+						array_push($errors,'Нет файла '.$file);
+					}
+				}
+			}
+		}
 		$kim_files = [];
 		foreach($task_numbers as $i) {
 			$kim_files[$i] = md5('kim'.$kim_number.'number'.$i).'.png';
@@ -69,7 +83,8 @@ class Kim extends Model {
 		$kim_files['i'] = md5('kim'.$kim_number.'info').'.png';
 		$kim_info = [
 			'answers' => $kim_ans,
-			'files' => $kim_files
+			'files' => $kim_files,
+			'additional_files' => $kim_additional_files
 		];
 		if(count($errors)) {
 			$response = [
@@ -83,6 +98,13 @@ class Kim extends Model {
 			}
 			copy($tmp_path.'/info.png','img/'.$kim_files['i']);
 			$this->kimsDB->set($kim_number,$kim_info);
+			$kim_storage_path = '../storage/'.$kim_number;
+			mkdir($kim_storage_path);
+			foreach($kim_additional_files as $task) {
+				foreach($task as $file) {
+					copy($tmp_path.'/'.$file,$kim_storage_path.'/'.$file);
+				}
+			}
 			$response = [
 				'ok' => true
 			];
@@ -107,10 +129,18 @@ class Kim extends Model {
 		}
 		$kims = json_decode($post['json'],false);
 		foreach($kims as $kim) {
-			$files = $this->kimsDB->get($kim)['files'];
+			$kim_data = $this->kimsDB->get($kim);
+			$files = $kim_data['files'];
 			foreach($files as $file) {
 				unlink('img/'.$file);
 			}
+			$additional_files = $kim_data['additional_files'];
+			foreach($additional_files as $task) {
+				foreach($task as $file) {
+					unlink('../storage/'.$kim.'/'.$file);
+				}
+			}
+			rmdir('../storage/'.$kim);
 			$this->kimsDB->unset($kim);
 		}
 		return true;

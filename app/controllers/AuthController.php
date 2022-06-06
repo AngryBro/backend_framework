@@ -18,9 +18,8 @@ class AuthController extends Controller {
 	}
 
 	function logout() {
-		session_start();
-    	unset($_SESSION['user']);
-    	unset($_SESSION['role']);
+		$auth = new Auth;
+		$auth->logout();
 		$this->redirect('/login');
 	}
 	

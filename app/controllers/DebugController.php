@@ -13,5 +13,11 @@ class DebugController extends Controller {
 		$view->render($params);
 		var_dump($_SERVER['REQUEST_URI']);
 	}
+
+	function download() {
+		$file = '../storage/graph.pdf';
+		header('Content-Disposition: attachment; filename="graph.pdf"');
+		readfile($file);
+	}
 	
 }

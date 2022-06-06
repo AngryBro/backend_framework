@@ -18,13 +18,20 @@ class Test extends Model {
 		return json_encode($this->usersDB->get($user)['kim']);
 	}
 
+	function download($file,$user) {
+		$kim_name = json_decode($this->getKimName($user),false);
+		$path = '../storage/'.$kim_name.'/'.$file;
+		header('Content-Disposition: attachment; filename="'.$file.'"');
+		readfile($path);
+	}
+
 	public function load($user) {
 		$name = $this->usersDB->get($user)['kim'];
 		$kim = $this->kimsDB->get($name);
 		$params = [
-			'task_count' => $kim['task_count'],
 			'files' => $kim['files'],
-			'name' => $name
+			'name' => $name,
+			'additional_files' => $kim['additional_files']
 		];
 		$params = json_encode($params);
 		return $params;

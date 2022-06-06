@@ -1,6 +1,6 @@
 function redirect(auth_data) {
     if(auth_data['authed']) {
-        location.href = auth_data['role']=='admin'?'/admin':'/test';
+        location.href = auth_data['role']=='admin'?'/admin':'/startexam';
     }
     else {
         alert('Неверные данные');

@@ -37,6 +37,12 @@ abstract class Controller {
 		}
 	}
 
+	protected function abort($error) {
+		http_response_code($error);
+		View::show('page'.$error);
+		exit;
+	}
+
 	protected function redirect($url) {
 		header('Location: '.$url);
 	}

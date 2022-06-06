@@ -4,6 +4,7 @@
 		<script defer src='/js/async_forms.js'></script>
 		<script defer src='/js/test.js'></script>
 		<link rel='stylesheet' href='/css/test.css'>
+		<link rel='stylesheet' href='/css/recheck.css'>
 	</head>
 	<body>
 <div id='start_exam' hidden>
@@ -40,6 +41,12 @@
 								</table>
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<ul id="additional_files">
+								</ul>
+							</td>
+						</tr>
 						<tr valign='bottom'>
 							<td>
 								<button class='end' onclick='end()'>Завершить экзамен</button>
@@ -51,18 +58,11 @@
 		</table>
 </div>
 <div id='end_exam' hidden>
-			<table id='answers_table'>
-				<tr>
-					<th>
-						№
-					</th>
-					<th>
-						Ваш ответ
-					</th>
-				</tr>
+			<table id='answers_table' class="answers">
 			</table>
-			<button onclick='back_to_test()'>Назад</button>
-			<button onclick='send()'>Завершить экзамен</button>
+			<br><br>
+			<button class="stay" onclick='back_to_test()'>Назад</button>
+			<button class="send" onclick='send()'>Отправить</button>
 </div>
 <div id='sent' hidden>
 			<h1>Экзамен завершён</h1>

@@ -3,13 +3,14 @@
 		<title>Авторизация</title>
 		<script defer src='/js/async_forms.js'></script>
 		<script defer src='/js/login.js'></script>
+		<link rel='stylesheet' href='/css/form.css'>
 	</head>
 	<body>
 		<h1>Авторизация пользователя</h1>
 			<table>
 			<form id='form'>
 				<tr>
-					<td>
+					<td class='label'>
 						Логин:
 					</td>
 					<td>
@@ -17,11 +18,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td class='label'>
 						Пароль:
 					</td>
 					<td>
-						<input name='password'></input>
+						<input type='password' name='password'></input>
 					</td>
 				</tr>
 			</form>

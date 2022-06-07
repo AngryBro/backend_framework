@@ -146,8 +146,27 @@ class Kim extends Model {
 		return true;
 	}
 
+	function make($kim1,$kim2,$name) {
+		$name1 = $kim1;
+		$name2 = $kim2;
+		$kim1 = $this->kimsDB->get($kim1);
+		$kim2 = $this->kimsDB->get($kim2);
+		$kims = [1 => $kim1, 2 => $kim2];
+		$answers = [];
+		$additional_files = [];
+		$files = [];
+		$tasks = [];
+		foreach(array_keys($kim1['answers']) as $task) {
+			$tasks[$task] = rand(1,2);
+		}
+		$task_numbers = array_keys($tasks);
+		foreach($task_numbers as $i) {
+			$files[$i] = md5($name.'number'.$i).'png';
+		}
+	}
+
 	public function getKims() {
-		return array_diff($this->kimsDB->keys());
+		return array_diff($this->kimsDB->keys(),['demo','debug']);
 	}
 
 	public function sample() {

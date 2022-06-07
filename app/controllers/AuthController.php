@@ -22,5 +22,10 @@ class AuthController extends Controller {
 		$auth->logout();
 		$this->redirect('/login');
 	}
+
+	function silent_logout() {
+		$auth = new Auth;
+		$auth->logout();
+	}
 	
 }

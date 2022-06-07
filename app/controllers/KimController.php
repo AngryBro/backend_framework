@@ -46,4 +46,9 @@ class KimController extends Controller {
 		echo json_encode($kim->getKims());
 	}
 
+	function make($names) {
+		$kim = new Kim;
+		$kim->make($names[0],$names[1],'hybrid');
+	}
+
 }

@@ -15,6 +15,14 @@ class TestController extends Controller {
 
 	function getSavedAns() {
 		$this->accessable();
+		if(!isset($_SESSION['saved_answers'])) {
+			$temp = [];
+			$temp['i'] = '';
+			foreach($tasks as $i) {
+				$temp[$i] = '';
+			}
+			$_SESSION['saved_answers'] = json_encode($temp);
+		}
 		echo $_SESSION['saved_answers'];
 	}
 
@@ -43,14 +51,6 @@ class TestController extends Controller {
 		$test = new Test;
 		$data = $test->load($_SESSION['user']);
 		$tasks = array_keys($data['files']);
-		if(!isset($_SESSION['saved_answers'])) {
-			$temp = [];
-			$temp['i'] = '';
-			foreach($tasks as $i) {
-				$temp[$i] = '';
-			}
-			$_SESSION['saved_answers'] = json_encode($temp);
-		}
 		echo json_encode($data);
 	}
 

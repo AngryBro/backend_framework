@@ -6,10 +6,10 @@ var FILES_LINKS = {};
 start();
 
 function start() {
-    async_get_json('/test/data',build_test);
     async_get_json('/test/saved',function(response){
         ANSWERS = response;
     });
+    async_get_json('/test/data',build_test);
 }
 
 function end() {

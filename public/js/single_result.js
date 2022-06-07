@@ -7,6 +7,9 @@ function trigger_correct_ans() {
     button.innerHTML = (correct_answers.hidden?'Показать':'Скрыть')+' верные ответы';
 }
 function unparser(str) {
+    if(str==null) {
+        return '';
+    }
     str = str.split('|').join('<br>');
     return str;
 }

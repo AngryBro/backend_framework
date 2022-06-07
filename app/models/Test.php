@@ -33,7 +33,6 @@ class Test extends Model {
 			'name' => $name,
 			'additional_files' => $kim['additional_files']
 		];
-		$params = json_encode($params);
 		return $params;
 	}
 

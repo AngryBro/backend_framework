@@ -28,6 +28,7 @@ class Auth extends Model {
 		session_start();
     	unset($_SESSION['user']);
     	unset($_SESSION['role']);
+		unset($_SESSION['saved_answers']);
 		session_destroy();
 		unset($_COOKIE['PHPSESSID']);
 		setcookie('PHPSESSID', null, -1, '/');

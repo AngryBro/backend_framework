@@ -163,6 +163,7 @@ class Kim extends Model {
 		foreach($task_numbers as $i) {
 			$files[$i] = md5($name.'number'.$i).'png';
 		}
+		// допилить
 	}
 
 	public function getKims() {

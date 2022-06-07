@@ -8,6 +8,16 @@ class TestController extends Controller {
 		return parent::__construct('user','admin');
 	}
 
+	function save($request) {
+		$this->accessable();
+		$_SESSION['saved_answers'] = $request['json'];
+	}
+
+	function getSavedAns() {
+		$this->accessable();
+		echo $_SESSION['saved_answers'];
+	}
+
 	public function index() {
 		$this->accessable();
 		View::show('test');
@@ -25,12 +35,23 @@ class TestController extends Controller {
 		$this->accessable();
 		$test = new Test;
 		$test->check(json_decode($request['json'],true),$_SESSION['user']);
+		$this->redirect('/slogout');
 	}
 
 	function getData() {
 		$this->accessable();
 		$test = new Test;
-		echo $test->load($_SESSION['user']);
+		$data = $test->load($_SESSION['user']);
+		$tasks = array_keys($data['files']);
+		if(!isset($_SESSION['saved_answers'])) {
+			$temp = [];
+			$temp['i'] = '';
+			foreach($tasks as $i) {
+				$temp[$i] = '';
+			}
+			$_SESSION['saved_answers'] = json_encode($temp);
+		}
+		echo json_encode($data);
 	}
 
 	function getName() {

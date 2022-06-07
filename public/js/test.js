@@ -7,6 +7,9 @@ start();
 
 function start() {
     async_get_json('/test/data',build_test);
+    async_get_json('/test/saved',function(response){
+        ANSWERS = response;
+    });
 }
 
 function end() {
@@ -15,6 +18,9 @@ function end() {
 
 function send() {
     delete ANSWERS.i;
+    for(var i in ANSWERS) {
+        ANSWERS[i] = parser(ANSWERS[i]);
+    }
     async_post_json('/test',ANSWERS);
     view('sent');
     setTimeout(logout,3000);
@@ -45,9 +51,6 @@ function build_end() {
 }
 
 function build_test(kimData) {
-    for(var i in kimData.files) {
-        ANSWERS[i] = '';
-    }
     FILES_LINKS = kimData.additional_files;
     for(var i in FILES_LINKS) {
         for(var j in FILES_LINKS[i]) {
@@ -78,7 +81,7 @@ function back_to_test() {
 }
 
 function unparser(str) {
-    str = str.split('|').join('<br>');
+    str = str.split('\n').join('<br>');
     return str;
 }
 
@@ -95,7 +98,8 @@ function enable_button(button_id,class_) {
 }
 function save(ans) {
     document.getElementById('save').setAttribute('class','disabled');
-    ANSWERS[CURRENT_TASK] = parser(ans);
+    ANSWERS[CURRENT_TASK] = ans;
+    async_post_json('/test/save',ANSWERS);
 }
 function del(ans) {
     ans.value = '';

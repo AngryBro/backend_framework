@@ -86,10 +86,24 @@ function unparser(str) {
 }
 
 function parser(str) {
-    str = str.split(' ').join('');
-    str = str.split('\n').join('|');
+    str = str.replace(/ *|\t*/g,'');
+    str = str.replace(/\n+/g,'|');
+    if(str[str.length-1]=='|') {
+        str = str.split('|');
+        str.pop();
+        str = str.join('|');
+    }
+    if(str[0]=='|') {
+        str = str.replace('|','');
+    }
     return str;
 }
+
+function test_reg(str) {
+    str = str.replace(/\n+/g,'|');
+    return str;
+}
+
 function disable_button(button) {
     button.setAttribute('class','disabled');
 }

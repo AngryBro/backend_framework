@@ -18,6 +18,9 @@ class TestController extends Controller {
 		if(!isset($_SESSION['saved_answers'])) {
 			$temp = [];
 			$temp['i'] = '';
+			$test = new Test;
+			$data = $test->load($_SESSION['user']);
+			$tasks = array_keys($data['files']);
 			foreach($tasks as $i) {
 				$temp[$i] = '';
 			}

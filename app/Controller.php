@@ -23,7 +23,7 @@ abstract class Controller {
 
 	protected function access() {
 		session_start();
-		return ($this->roles=='all')||(in_array($_SESSION['role'],$this->roles));
+		return ($this->roles=='all')||((array_key_exists('role',$_SESSION))&&(in_array($_SESSION['role'],$this->roles)));
 	}
 	protected function deny() {
 		return !$this->access();

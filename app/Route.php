@@ -23,7 +23,7 @@ class Route {
 			'controller' => $controller,
 			'method' => $method,
 		];
-		if(strrpos($route,'{param}')===false) {
+		if((strrpos($route,'{')===false)||(strrpos($route,'}')===false)) {
 			self::$static_get_routes[$route] = $temp;
 		}
 		else {
@@ -64,10 +64,10 @@ class Route {
 				continue;
 			}
 			foreach($route_split as $number => $part) {
-				if($part=='{param}') {
-					array_push($params,$split[$number]);
+				if((strlen($part)>0)&&($part[0].$part[-1]=='{}')) {
+					$params[substr($part,1,-1)] = $split[$number];
 				}
-				if(($part != $split[$number])&&($part!='{param}')) {
+				if(($part != $split[$number])&&(($part[0]!='{')||($part[-1]!='}'))) {
 					$matched = false;
 					$params = [];
 					break;
@@ -99,8 +99,9 @@ class Route {
 			include '../app/controllers/'.$controller.'Controller.php';
 			eval('$controller = new '.$controller.'Controller;');
 			if(isset($match['params'])) {
-				if(count($match['params'])==1) {
-					$controller->$method($match['params'][0]);
+				$keys_params = array_keys($match['params']);
+				if(count($keys_params)==1) {
+					$controller->$method($match['params'][$keys_params[0]]);
 				}
 				else {
 					$controller->$method($match['params']);

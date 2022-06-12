@@ -16,10 +16,11 @@ Route::get('/admin/delkims','Kim','delkims');
 Route::get('/admin/getkims','Kim','getkims');
 Route::get('/admin/results','Admin','results');
 Route::get('/admin/results/get','Admin','getResults');
-Route::get('/admin/results/{param}','Admin','single_result');
+Route::get('/admin/results/{result}','Admin','single_result');
 Route::get('/admin/users','Admin','getUsers');
-Route::get('/test/download/{param}','Test','download');
+Route::get('/test/download/{filename}','Test','download');
 Route::get('/test/saved','Test','getSavedAns');
+Route::get('/debug','Debug');
 
 Route::post('/admin/delkims','Kim','deleteKims');
 Route::post('/debug/send','Debug','debug');

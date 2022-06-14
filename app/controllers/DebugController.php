@@ -1,5 +1,4 @@
 <?php
-include '../app/Controller.php';
 
 class DebugController extends Controller {
 	

@@ -1,5 +1,4 @@
 <?php
-include '../app/Controller.php';
 include '../app/models/Auth.php';
 
 class AuthController extends Controller {
@@ -20,7 +19,7 @@ class AuthController extends Controller {
 	function logout() {
 		$auth = new Auth;
 		$auth->logout();
-		$this->redirect('/login');
+		redirect('/login');
 	}
 
 	function silent_logout() {

@@ -1,5 +1,4 @@
 <?php
-include '../app/Controller.php';
 include '../app/models/Kim.php';
 
 class KimController extends Controller {

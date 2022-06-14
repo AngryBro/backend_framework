@@ -1,5 +1,4 @@
 <?php
-include '../app/Controller.php';
 include '../app/models/Test.php';
 
 class TestController extends Controller {
@@ -41,7 +40,7 @@ class TestController extends Controller {
 	public function send($request) {
 		$test = new Test;
 		$test->check(json_decode($request['json'],true),$_SESSION['user']);
-		$this->redirect('/slogout');
+		redirect('/slogout');
 	}
 
 	function getData() {

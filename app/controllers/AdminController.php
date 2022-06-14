@@ -1,5 +1,5 @@
 <?php
-include '../app/Controller.php';
+
 include '../app/models/Admin.php';
 
 class AdminController extends Controller {
@@ -27,7 +27,7 @@ class AdminController extends Controller {
 		$admin = new Admin;
 		$results = $admin->getResults();
 		if(($id<=0)||($id>count($results))) {
-			$this->abort(404);
+			abort(404);
 		}
 		$view = new View('single_result');
 		$view->render();

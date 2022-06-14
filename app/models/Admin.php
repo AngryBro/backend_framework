@@ -1,7 +1,5 @@
 <?php
 
-include '../app/Model.php';
-
 class Admin extends Model {
 
 	private $usersDB;

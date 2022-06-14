@@ -1,7 +1,5 @@
 <?php
 
-include '../app/Model.php';
-
 class Test extends Model {
 
 	private $testDB;

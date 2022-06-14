@@ -1,5 +1,9 @@
 <?php
 
+include '../app/Model.php';
+include '../app/View.php';
+include '../app/Controller.php';
+
 class Route {
 	
 	private static $static_get_routes = [];
@@ -99,6 +103,10 @@ class Route {
 			$method = $match['route']['method'];
 			include '../app/controllers/'.$controller.'Controller.php';
 			eval('$controller = new '.$controller.'Controller;');
+			if(!$controller->access) {
+				abort(403);
+				return;
+			}
 			if(isset($match['params'])) {
 				$keys_params = array_keys($match['params']);
 				if(count($keys_params)==1) {
@@ -116,9 +124,7 @@ class Route {
 			}
 		}
 		else {
-			include '../app/View.php';
-			http_response_code(404);
-			View::show('page404');
+			abort(404);
 		}
 	}
 }

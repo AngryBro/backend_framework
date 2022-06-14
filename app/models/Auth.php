@@ -1,7 +1,5 @@
 <?php
 
-include '../app/Model.php';
-
 class Auth extends Model {
 	
 	private $usersDB;

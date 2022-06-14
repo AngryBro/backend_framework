@@ -1,10 +1,9 @@
 <?php
 
-include '../app/View.php';
-
 abstract class Controller {
 	
 	protected $roles;
+	public $access;
 	
 	public function __construct() {
 		$n = func_num_args();
@@ -19,20 +18,16 @@ abstract class Controller {
 			}
 		}
 		$this->roles = $roles;
-		if(!(in_array('all',$roles)||(array_key_exists('role',$_SESSION)&&in_array($_SESSION['role'],$roles)))) {
-			http_response_code(403);
-			View::show('page403');
-			exit;
-		}
+		$this->access = in_array('all',$roles)||(array_key_exists('role',$_SESSION)&&in_array($_SESSION['role'],$roles));
 	}
+}
 
-	protected function abort($error) {
-		http_response_code($error);
-		View::show('page'.$error);
-		exit;
-	}
+function abort($code) {
+	http_response_code($code);
+	View::show('page'.$code);
+	exit;
+}
 
-	protected function redirect($url) {
-		header('Location: '.$url);
-	}
+function redirect($url) {
+	header('Location: '.$url);
 }

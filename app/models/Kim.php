@@ -1,7 +1,5 @@
 <?php
 
-include '../app/Model.php';
-
 class Kim extends Model {
 	
 	private $kimsDB;

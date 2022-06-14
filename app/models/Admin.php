@@ -27,7 +27,7 @@ class Admin extends Model {
 	public function register($post) {
 		$login = $post['login'];
 		$password = $post['password'];
-		$password = md5($password);
+		$password = password_hash($password,PASSWORD_DEFAULT);
 		$this->usersDB->set($login,[
 			'password' => $password,
 			'role' => 'user',

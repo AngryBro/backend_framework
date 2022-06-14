@@ -5,7 +5,7 @@ class View {
 	private $path;
 	
 	public function __construct($viewname) {
-		$this->path = '../app/views/'.$viewname.'.php';
+		$this->path = '../app/views/'.$viewname.'.html';
 	}
 	
 	public function render() {
@@ -17,6 +17,6 @@ class View {
 	}
 
 	public static function show($page) {
-		require '../app/views/'.$page.'.php';
+		require '../app/views/'.$page.'.html';
 	}
 }

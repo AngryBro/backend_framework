@@ -88,6 +88,7 @@ class Route {
 	}
 	
 	public static function run() {
+		session_start();
 		if(($_SERVER['REQUEST_URI']=='/')&&self::$default['set']) {
 			header('Location: '.self::$default['url']);
 			return;

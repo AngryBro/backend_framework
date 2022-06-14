@@ -13,10 +13,8 @@ class Auth extends Model {
 	public function login($post) {
 		$login = $post['login'];
 		$password = $post['password'];
-		$password = md5($password);
 		$user = $this->usersDB->get($login);
-		if($user['password']==$password) {
-			session_start();
+		if(password_verify($password,$user['password'])) {
 			$_SESSION['user'] = $login;
 			$_SESSION['role'] = $user['role'];
 			return true;
@@ -25,13 +23,12 @@ class Auth extends Model {
 	}
 
 	function logout() {
-		session_start();
     	unset($_SESSION['user']);
     	unset($_SESSION['role']);
 		unset($_SESSION['saved_answers']);
 		session_destroy();
 		unset($_COOKIE['PHPSESSID']);
-		setcookie('PHPSESSID', null, -1, '/');
+		setcookie('PHPSESSID', '', -1, '/');
 	}
 
 }

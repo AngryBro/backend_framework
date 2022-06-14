@@ -9,12 +9,10 @@ class TestController extends Controller {
 	}
 
 	function save($request) {
-		$this->accessable();
 		$_SESSION['saved_answers'] = $request['json'];
 	}
 
 	function getSavedAns() {
-		$this->accessable();
 		if(!isset($_SESSION['saved_answers'])) {
 			$temp = [];
 			$temp['i'] = '';
@@ -30,12 +28,10 @@ class TestController extends Controller {
 	}
 
 	public function index() {
-		$this->accessable();
 		View::show('test');
 	}
 	
 	function start() {
-		$this->accessable();
 		$test = new Test;
 		$view = new View('test_start');
 		$params = ['id' => $test->getKimName($_SESSION['user'])];
@@ -43,14 +39,12 @@ class TestController extends Controller {
 	}
 
 	public function send($request) {
-		$this->accessable();
 		$test = new Test;
 		$test->check(json_decode($request['json'],true),$_SESSION['user']);
 		$this->redirect('/slogout');
 	}
 
 	function getData() {
-		$this->accessable();
 		$test = new Test;
 		$data = $test->load($_SESSION['user']);
 		$tasks = array_keys($data['files']);
@@ -58,13 +52,11 @@ class TestController extends Controller {
 	}
 
 	function getName() {
-		$this->accessable();
 		$test = new Test;
 		echo $test->getKimName($_SESSION['user']);
 	}
 
 	function download($file) {
-		$this->accessable();
 		$file = explode('-',$file);
 		$file = implode('.',$file);
 		$test = new Test;

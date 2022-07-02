@@ -1,29 +1,41 @@
 <?php
-include '../app/models/Auth.php';
+
+Model::include('User');
 
 class AuthController extends Controller {
 
-	function authentificate($post) {
-		$auth = new Auth;
+	function registerView() {
+		//$this->accessOnlyFor(['admin']);
+		return view('register');
+	}
+
+	function register($request) {
+		$auth = new User;
+		$response = $auth->register($request);
+		echo json_encode($response);
+	}
+
+	function login($post) {
+		$auth = new User;
 		$authed = $auth->login($post);
 		echo json_encode([
 			'authed' => $authed,
-			'role' => $authed?$_SESSION['role']:'unknown'
+			'role' => $authed?$_SESSION['role']:config('access')['default']
 		]);
 	}
 
 	public function index() {
-		View::show('login');
+		return view('login');
 	}
 
 	function logout() {
-		$auth = new Auth;
+		$auth = new User;
 		$auth->logout();
-		redirect('/login');
+		return redirect('/login');
 	}
 
 	function silent_logout() {
-		$auth = new Auth;
+		$auth = new User;
 		$auth->logout();
 	}
 	

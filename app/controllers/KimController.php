@@ -3,12 +3,9 @@ include '../app/models/Kim.php';
 
 class KimController extends Controller {
 	
-	public function __construct() {
-		return parent::__construct('admin');
-	}
 
 	public function addkim() {
-		View::show('addkim');
+		return view('addkim');
 	}
 
 	function add($request) {
@@ -29,7 +26,7 @@ class KimController extends Controller {
 	}
 
 	function delkims() {
-		View::show('delkim');
+		return view('delkim');
 	}
 	
 	function getkims() {

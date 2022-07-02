@@ -2,10 +2,6 @@
 include '../app/models/Test.php';
 
 class TestController extends Controller {
-	
-	public function __construct() {
-		return parent::__construct('user','admin');
-	}
 
 	function save($request) {
 		$_SESSION['saved_answers'] = $request['json'];
@@ -27,20 +23,19 @@ class TestController extends Controller {
 	}
 
 	public function index() {
-		View::show('test');
+		return view('test');
 	}
 	
 	function start() {
 		$test = new Test;
-		$view = new View('test_start');
 		$params = ['id' => $test->getKimName($_SESSION['user'])];
-		$view->render($params);
+		return view('test_start');
 	}
 
 	public function send($request) {
 		$test = new Test;
 		$test->check(json_decode($request['json'],true),$_SESSION['user']);
-		redirect('/slogout');
+		return redirect('/slogout');
 	}
 
 	function getData() {

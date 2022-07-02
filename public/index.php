@@ -1,6 +1,6 @@
 <?php
 
-include '../app/Route.php';
-include '../routes/web.php';
+include '../config/functions.php';
+load_app();
 
 Route::run();

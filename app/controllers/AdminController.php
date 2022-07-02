@@ -1,15 +1,12 @@
 <?php
 
-include '../app/models/Admin.php';
+Model::include('Admin');
+Model::include('User');
 
 class AdminController extends Controller {
-	
-	public function __construct() {
-		return parent::__construct('admin');
-	}
 
 	public function index() {
-		View::show('admin');
+		return view('admin');
 	}
 	
 	function getResults() {
@@ -29,8 +26,7 @@ class AdminController extends Controller {
 		if(($id<=0)||($id>count($results))) {
 			abort(404);
 		}
-		$view = new View('single_result');
-		$view->render();
+		return view('single_result');
 	}
 
 	function getResult($id) {
@@ -41,20 +37,18 @@ class AdminController extends Controller {
 	}
 
 	public function results() {
-		View::show('results');
+		return view('results');
 	}
 
-	public function register($post) {
-		$admin = new Admin;
-		$admin->register($post);
+	public function unregisterView() {
+		return view('unregister');
 	}
 
-	function registerShow() {
-		View::show('register');
-	}
-
-	public function unregister() {
-		View::show('unregister');
+	function unregister($request) {
+		$emails = json_decode($request['json'],false);
+		$auth = new User;
+		$response = $auth->unregister($emails);
+		echo json_encode($response);
 	}
 
 	function getUsers() {

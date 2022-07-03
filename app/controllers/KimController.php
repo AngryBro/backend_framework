@@ -1,5 +1,6 @@
 <?php
-include '../app/models/Kim.php';
+
+Model::include('Kim');
 
 class KimController extends Controller {
 	
@@ -16,13 +17,8 @@ class KimController extends Controller {
 
 	function deleteKims($post) {
 		$kim = new Kim;
-		$ok = $kim->delete($post);
-		if($ok) {
-			echo json_encode($kim->getKims());
-		}
-		else {
-			echo json_encode(['error']);
-		}
+		$ok = $kim->delete(json_decode($post['json'],false));
+		echo json_encode($ok);
 	}
 
 	function delkims() {

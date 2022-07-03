@@ -4,12 +4,6 @@ class User extends Model {
 	
 	public function __construct() {
 		$this->table = 'users';
-		$this->schema = [
-			'email' => Type::STR,
-			'password_hash' => Type::STR,
-			'role' => Type::STR,
-			'kim' => Type::STR
-		];
 	}
 
 	public function login($post) {
@@ -46,6 +40,9 @@ class User extends Model {
 		$password = $request['password'];
 		$role = 'user';
 		$kim = $request['kim'];
+		if((empty($email))||(empty($password))||empty($kim)) {
+			return false;
+		}
 		$result = $this->query()
 		->select(['email'])
 		->where(["email" => $email])
@@ -72,6 +69,7 @@ class User extends Model {
 		->whereIn([
 			'email' => $emails
 		])
+		->whereNot(['email' => 'admin'])
 		->send();
 		return $response;
 	}

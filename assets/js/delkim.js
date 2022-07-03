@@ -1,6 +1,11 @@
-get_async_json('/admin/getkims',build_table);
-
+var kims_api = '/api/kims';
 var KIMS_TO_DELETE = {};
+
+loadKims();
+
+function loadKims() {
+	get_async_json(kims_api,build_table);
+}
 
 function change(checkbox) {
 	KIMS_TO_DELETE[checkbox.value] = checkbox.checked;
@@ -14,15 +19,23 @@ function delete_kims() {
 		}
 	}
 	KIMS_TO_DELETE = {};
-	send_async_json('/admin/delkims',kims,build_table);
+	send_async_json('/admin/delkims',kims,loadKims);
 }
 
 function build_table(kims) {
+	var temp = [];
+	for(var i in kims) {
+		temp.push(kims[i]['name']);
+	}
+	kims = temp;
 	var table = document.getElementById('table');
+	if(temp.length==0) {
+		table.innerHTML = 'КИМы отсутствуют';
+	}
 	table.innerHTML = `
 		<tr>
 			<td>
-				Номер КИМ
+				Идентификатор КИМ
 			</td>
 			<td>
 				Отметка на удаление

@@ -1,5 +1,10 @@
 var RESULTS_TO_DELETE = {count:0};
-async_get_json('/admin/results/get',build_table);
+var API = '/api/results';
+load();
+
+function load() {
+    async_get_json(API,build_table);
+}
 
 function delete_results() {
     var results = [];
@@ -10,7 +15,7 @@ function delete_results() {
         }
     }
     RESULTS_TO_DELETE = {count:0};
-    async_post_json('/admin/results',results,build_table);
+    async_post_json(API,results,load);
 }
 
 function build_table(results) {
@@ -32,25 +37,22 @@ function build_table(results) {
 				</td>
 		</tr>
         `;
+    if(results.length==0) {
+        table.innerHTML = 'Результаты отсутствуют';
+    }
     for(var i in results) {
-        if(results.length) {
+        var num = Number(i)+1;
         table.innerHTML += `
-        <tr id="result`+i+`">
-            <td><a href='/admin/results/`+String(Number(i)+1)+`'>
-                `+String(Number(i)+1)+`</a>
-            </td>
-            <td>
-                `+results[i].user+`
-            </td>
-            <td>
-                `+results[i].kim+`
-            </td>
-            <td>
-                <input value="`+i+`" onchange="check_to_delete(this)" type="checkbox"></input>
-            </td>
-        </tr>
+            <tr>
+                <td><a href='/admin/results/`+num+`'>`+num+`</a></td>
+                <td>`+results[i].email+`</td>
+                <td>`+results[i].kim+`</td>
+                <td><input type='checkbox' 
+                value=`+results[i].id+
+                ` onchange=check_to_delete(this)`
+                +`></input></td>
+            </tr>
         `;
-        }
     }
 }
 function check_to_delete(checkbox) {

@@ -1,5 +1,6 @@
 <?php
-include '../app/models/Sample.php';
+
+Model::include('Sample');
 
 class SampleController extends Controller {
 	

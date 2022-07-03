@@ -1,5 +1,11 @@
-result_id = window.location.toString().split('/').pop();
-async_post_json('/admin/result',Number(result_id),build);
+result_num = window.location.toString().split('/').pop();
+API = '/api/result/'+result_num;
+
+load();
+
+function load() {
+    async_get_json(API,build);
+}
 
 function trigger_correct_ans() {
     var button = document.getElementById('trigger');
@@ -13,16 +19,17 @@ function unparser(str) {
     str = str.split('|').join('<br>');
     return str;
 }
-function build(result) { console.log(result);
+function build(result) {
     var header = document.getElementById('header');
-    header.innerHTML = 'Результаты пользователя '+result.user+' по тесту '+result.kim;
+    header.innerHTML = 'Результаты пользователя '+result.email+' по тесту '+result.kim;
     var table = document.getElementById('table');
-    for(var i in result.answers) {
+    result = JSON.parse(result.result);
+    for(var i in result) {
         table.innerHTML += `
             <tr>
                 <th>`+i+`</th>
-                <td class="`+(result.answers[i].correct?`correct`:`wrong`)+`">`+unparser(result.answers[i].actual)+`</td>
-                <td class='correct_answer'>`+unparser(result.answers[i].right)+`</td>
+                <td class="`+(result[i].correct?`correct`:`wrong`)+`">`+unparser(result[i].actual)+`</td>
+                <td class='correct_answer'>`+unparser(result[i].right)+`</td>
             </tr>
         `;
     }    

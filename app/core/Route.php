@@ -6,12 +6,17 @@ class Route {
 	private static $static_post_routes = [];
 	private static $dynamic_routes = [];
 	private static $default = ['set' => false];
+	private static $view_routes = [];
 	
 	static function default($url) {
 		self::$default = [
 			'set' => true,
 			'url' => $url
 		];
+	}
+
+	static function view($route,$view) {
+		self::$view_routes[$route] = $view;
 	}
 
 	public static function get() {
@@ -43,6 +48,13 @@ class Route {
 	
 	public static function match() {
 		$url = $_SERVER['REQUEST_URI'];
+
+		if(array_key_exists($url,self::$view_routes)) {
+			return [
+				'matched' => true,
+				'view' => self::$view_routes[$url]
+			];
+		}
 
 		if(array_key_exists($url,self::$static_get_routes)||array_key_exists($url,self::$static_post_routes)) {
 			if(empty($_POST)) {
@@ -99,6 +111,9 @@ class Route {
 		}
 		$match = self::match();
 		if($match['matched']) {
+			if(isset($match['view'])) {
+				return view($match['view']);
+			}
 			$controller = $match['route']['controller'];
 			$controller = explode('Controller',$controller);
 			$controller = $controller[0];

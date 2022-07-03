@@ -9,7 +9,7 @@ function start() {
     async_get_json('/test/saved',function(response){
         ANSWERS = response;
     });
-    async_get_json('/test/data',build_test);
+    async_get_json('/api/tasks',build_test);
 }
 
 function end() {
@@ -21,10 +21,18 @@ function send() {
     for(var i in ANSWERS) {
         ANSWERS[i] = parser(ANSWERS[i]);
     }
-    async_post_json('/test',ANSWERS);
-    view('sent');
-    setTimeout(logout,3000);
+    async_post_json('/test',ANSWERS,sent);
 }
+
+function sent(response) {
+    setTimeout(logout,2000);
+    if(response) {
+        view('success_end');
+    }
+    else {
+        view('fail_end');
+    }
+} 
 
 function logout() {
     location.href = '/logout';
@@ -51,21 +59,21 @@ function build_end() {
 }
 
 function build_test(kimData) {
-    FILES_LINKS = kimData.additional_files;
+    FILES_LINKS = kimData.files;
     for(var i in FILES_LINKS) {
         for(var j in FILES_LINKS[i]) {
-            FILES_LINKS[i][j] = FILES_LINKS[i][j].split('.').join('-');
+            FILES_LINKS[i][j] = FILES_LINKS[i][j].split('.').join('/');
         }
     }
     var buttons = document.getElementById('buttons');
-    buttons.innerHTML += create_button(kimData.files['i'],'i');
+    buttons.innerHTML += create_button('i','i');
     var infbutton = document.getElementById('buttoni');
     infbutton.innerHTML = '<i>'+infbutton.innerHTML+'</i>';
     infbutton.setAttribute('class','active_page');
-    document.getElementById('img').setAttribute('src','/img/'+kimData.files['i'].replace('.','/'));
-    for(var i in kimData.files) {
-        if(i!='i') {
-            buttons.innerHTML += create_button(kimData.files[i],i);
+    document.getElementById('img').setAttribute('src','/api/task/info');
+    for(var i in kimData.tasks) {
+        if(kimData.tasks[i]!='i') {
+            buttons.innerHTML += create_button(kimData.tasks[i],kimData.tasks[i]);
         }
     }
     view('test');
@@ -133,7 +141,7 @@ function make_active(button) {
             links.innerHTML += `
                 <li><a target='blank' href='/test/download/`+
                 FILES_LINKS[CURRENT_TASK][i]+
-                `'>`+FILES_LINKS[CURRENT_TASK][i].split('-').join('.')+`</a></li>
+                `'>`+FILES_LINKS[CURRENT_TASK][i].split('/').join('.')+`</a></li>
             `;
         }
     }
@@ -142,10 +150,11 @@ function make_active(button) {
     }
 }
 function create_button(img,text) {
+    img = img=='i'?'info':img;
     return `
     <tr>
         <td>
-            <button class='page' id=button`+text+` onclick="make_active(this);img.src=\'/img/`+img.replace('.','/')+`\'">`+text+`
+            <button class='page' id=button`+text+` onclick="make_active(this);img.src=\'api/task/`+img+`\'">`+text+`
             </button>
         </td>
     </tr>

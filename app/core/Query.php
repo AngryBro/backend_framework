@@ -4,12 +4,12 @@ class Query {
 
     private $query;
     private $table;
-    private $schema;
+    //private $schema;
 
-    function __construct($table,$schema,$query=[]) {
+    function __construct($table,$query=[]) {
         $this->table = $table;
         $this->query = $query;
-        $this->schema = $schema;
+        //$this->schema = $schema;
     }
 
     function insert($array) {
@@ -19,6 +19,16 @@ class Query {
 
     function whereIn($array) {
         $this->query['whereIn'] = $array;
+        return $this;
+    }
+
+    function whereNotIn($array) {
+        $this->query['whereNotIn'] = $array;
+        return $this;
+    }
+
+    function whereNot($array) {
+        $this->query['whereNot'] = $array;
         return $this;
     }
 
@@ -66,41 +76,42 @@ class Query {
         if(isset($query['delete'])) {
             $sql = 'DELETE FROM '.$this->table;
         }
-        // if(isset($query['where'])) {
-        //     $temp_array = [];
-        //     $array = $query['where'];
-        //     foreach($array as $key => $value) {
-        //         $temp = $key.'=';
-        //         if($this->schema[$key]==Type::STR) {
-        //             $temp .= "'".$value."'";
-        //         }
-        //         else {
-        //             $temp .= $value;
-        //         }
-        //     array_push($temp_array,$temp);
-        //     }
-        //     $where = implode(' AND ',$temp_array);
-        //     $sql = $sql.' WHERE '.$where;
-        // }
 
-        if(isset($query['where'])||isset($query['whereIn'])) {
+        if(isset($query['where'])||
+                isset($query['whereIn'])||
+                isset($query['whereNot'])||
+                isset($query['whereNotIn'])) {
             $temp = [];
             if(isset($query['where'])) {
                 foreach($query['where'] as $key => $value) {
                     array_push($temp,$key.'='
-                        .($this->schema[$key]==Type::STR?"'".$value."'":$value)
+                        .("'".$value."'")
+                    );
+                }
+            }
+            if(isset($query['whereNot'])) {
+                foreach($query['whereNot'] as $key => $value) {
+                    array_push($temp,$key.'!='
+                        .("'".$value."'")
                     );
                 }
             }
             if(isset($query['whereIn'])) {
                 foreach($query['whereIn'] as $key => $value) {
-                    if($this->schema[$key]==Type::STR) {
-                        foreach($value as $sub_key => $str) {
-                            $value[$sub_key] = "'".$str."'";
-                        }
+                    foreach($value as $sub_key => $str) {
+                        $value[$sub_key] = "'".$str."'";
                     }
                     $values_str = implode(',',$value);
                     array_push($temp,$key.' IN ('.$values_str.')');
+                }
+            }
+            if(isset($query['whereNotIn'])) {
+                foreach($query['whereNotIn'] as $key => $value) {
+                    foreach($value as $sub_key => $str) {
+                        $value[$sub_key] = "'".$str."'";
+                    }
+                    $values_str = implode(',',$value);
+                    array_push($temp,$key.' NOT IN ('.$values_str.')');
                 }
             }
             $conditions = implode(' AND ',$temp);
@@ -111,19 +122,18 @@ class Query {
             $sql = $sql.' ORDER BY '.$query['order'];
         }
         if(isset($query['insert'])) {
-            $temp = [];
+            $values = [];
+            $keys = [];
             foreach($query['insert'] as $key => $value) {
-                if($this->schema[$key]==Type::STR) {
-                    array_push($temp,"'".$value."'");
-                }
-                else {
-                    array_push($temp,$value);
-                }
+                array_push($keys,$key);
+                array_push($values,"'".$value."'");
             }
-            $values = implode(',',$temp);
-            $sql = 'INSERT INTO '.$this->table.' VALUES ('.$values.')';
+            $values = implode(',',$values);
+            $keys = implode(',',$keys);
+            $sql = "INSERT INTO ".$this->table." (".$keys.") VALUES (".$values.")";
         }
         $DB = new DB;
+        $sql = str_replace("'DEFAULT'","DEFAULT",$sql);
         $result = $DB->query($sql);
         $result = pg_fetch_all($result);
         $response = [

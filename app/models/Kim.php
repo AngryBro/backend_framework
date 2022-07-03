@@ -2,10 +2,8 @@
 
 class Kim extends Model {
 	
-	private $kimsDB;
-
 	public function __construct() {
-		$this->kimsDB = new DB('Kims');
+		$this->table = 'kims';
 	}
 
 	public function add($post,$files) {
@@ -23,8 +21,8 @@ class Kim extends Model {
 			$kim_number = $post['kim'];
 		}
 		$name = $files['zip']['tmp_name'];
-		$tmp_path = '../tempfiles';
-		$zip_path = $tmp_path.'/kim'.$kim_number.'.zip';
+		$tmp_path = config('file')['temp_files'];
+		$zip_path = $tmp_path.'kim'.$kim_number.'.zip';
 		$moved = move_uploaded_file($name,$zip_path);
 		if($moved) {
 			$zip = new ZipArchive;
@@ -33,6 +31,9 @@ class Kim extends Model {
 				$zip->extractTo($tmp_path);
 				$zip->close();
 			}
+			else {
+				array_push($errors,'Архив не открыт');
+			}
 			unlink($zip_path);
 		}
 		else {
@@ -40,13 +41,13 @@ class Kim extends Model {
 		}
 		$kim_data = scandir($tmp_path);
 		$kim_data = array_diff($kim_data,['.','..']);
-		if(!file_exists($tmp_path.'/answers.json')) {
+		if(!file_exists($tmp_path.'answers.json')) {
 			array_push($errors,'Нет файла answers.json');
 			$kim_ans = [];
 		}
 		else {
-			$kim_ans = file_get_contents($tmp_path.'/answers.json');
-			$kim_ans = json_decode($kim_ans,true);
+			$kim_ans_json = file_get_contents($tmp_path.'answers.json');
+			$kim_ans = json_decode($kim_ans_json,true);
 			foreach($kim_ans as $task => $ans) {
 				$kim_ans[$task] = $this->parser($ans);
 			}
@@ -65,7 +66,8 @@ class Kim extends Model {
 			array_push($errors,'Нет файла files.json');
 		}
 		else {
-			$kim_additional_files = json_decode(file_get_contents($tmp_path.'/files.json'),true);
+			$kim_additional_files_json = file_get_contents($tmp_path.'files.json');
+			$kim_additional_files = json_decode($kim_additional_files_json,true);
 			foreach($kim_additional_files as $task) {
 				foreach($task as $file) {
 					if(!in_array($file,$kim_data)) {
@@ -73,17 +75,26 @@ class Kim extends Model {
 					}
 				}
 			}
+			$response = $this->query()
+			->select(['name'])
+			->where(['name' => $kim_number])
+			->send();
+			if(!$response['empty']) {
+				$this->delete([$kim_number]);
+			}
+			$response = $this->query()
+			->insert([
+				'files' => $kim_additional_files_json,
+				'answers' => $kim_ans_json,
+				'name' => $kim_number
+			])
+			->send();
+
+			if(!$response['ok']) {
+				array_push($errors,'Ошибка записи КИМа');
+			}
 		}
-		$kim_files = [];
-		foreach($task_numbers as $i) {
-			$kim_files[$i] = md5('kim'.$kim_number.'number'.$i).'.png';
-		}
-		$kim_files['i'] = md5('kim'.$kim_number.'info').'.png';
-		$kim_info = [
-			'answers' => $kim_ans,
-			'files' => $kim_files,
-			'additional_files' => $kim_additional_files
-		];
+
 		if(count($errors)) {
 			$response = [
 				'ok' => false,
@@ -91,16 +102,15 @@ class Kim extends Model {
 			];
 		}
 		else {
-			foreach($task_numbers as $i) {
-				copy($tmp_path.'/'.$i.'.png','img/'.$kim_files[$i]);
-			}
-			copy($tmp_path.'/info.png','img/'.$kim_files['i']);
-			$this->kimsDB->set($kim_number,$kim_info);
-			$kim_storage_path = '../storage/'.$kim_number;
+			$kim_storage_path = config('file')['storage'].$kim_number;
 			mkdir($kim_storage_path);
+			foreach($task_numbers as $i) {
+				copy($tmp_path.$i.'.png',$kim_storage_path.'/'.$i.'.png');
+			}
+			copy($tmp_path.'info.png',$kim_storage_path.'/info.png');
 			foreach($kim_additional_files as $task) {
 				foreach($task as $file) {
-					copy($tmp_path.'/'.$file,$kim_storage_path.'/'.$file);
+					copy($tmp_path.$file,$kim_storage_path.'/'.$file);
 				}
 			}
 			$response = [
@@ -109,67 +119,47 @@ class Kim extends Model {
 		}
 		if(count($kim_data)) {
 			foreach($kim_data as $file) {
-				unlink($tmp_path.'/'.$file);
+				unlink($tmp_path.$file);
 			}
 		}
 		return $response;
 	}
 
 	private function parser($str) {
-		$str_arr = explode(' ',$str);
-		$str = implode('',$str_arr);
+		$str = str_replace(' ','',$str);
 		return $str;
 	}
 
-	public function delete($post) {
-		if(empty($post)) {
-			return false;
-		}
-		$kims = json_decode($post['json'],false);
-		foreach($kims as $kim) {
-			$kim_data = $this->kimsDB->get($kim);
-			$files = $kim_data['files'];
-			foreach($files as $file) {
-				unlink('img/'.$file);
-			}
-			$additional_files = $kim_data['additional_files'];
-			foreach($additional_files as $task) {
+	public function delete($kims) {
+		$response = $this->query()
+		->select()
+		->whereIn(['name' => $kims])
+		->send();
+		$kims_data = $response['data'];
+		$storage = config('file')['storage'];
+		foreach($kims_data as $kim_data) {
+			$files = json_decode($kim_data['files'],true);
+			foreach($files as $task) {
 				foreach($task as $file) {
-					unlink('../storage/'.$kim.'/'.$file);
+					unlink($storage.$kim_data['name'].'/'.$file);
 				}
 			}
-			rmdir('../storage/'.$kim);
-			$this->kimsDB->unset($kim);
+			$files = ['info.png'];
+			$ans = json_decode($kim_data['answers'],true);
+			$ans = array_keys($ans);
+			foreach($ans as $task) {
+				array_push($files,$task.'.png');
+			}
+			foreach($files as $file) {
+				unlink($storage.$kim_data['name'].'/'.$file);
+			}
+			rmdir($storage.$kim_data['name']);
 		}
-		return true;
-	}
-
-	function make($kim1,$kim2,$name) {
-		$name1 = $kim1;
-		$name2 = $kim2;
-		$kim1 = $this->kimsDB->get($kim1);
-		$kim2 = $this->kimsDB->get($kim2);
-		$kims = [1 => $kim1, 2 => $kim2];
-		$answers = [];
-		$additional_files = [];
-		$files = [];
-		$tasks = [];
-		foreach(array_keys($kim1['answers']) as $task) {
-			$tasks[$task] = rand(1,2);
-		}
-		$task_numbers = array_keys($tasks);
-		foreach($task_numbers as $i) {
-			$files[$i] = md5($name.'number'.$i).'png';
-		}
-		// допилить
-	}
-
-	public function getKims() {
-		return array_diff($this->kimsDB->keys(),['demo','debug']);
-	}
-
-	public function sample() {
-		//
+		$response = $this->query()
+		->delete()
+		->whereIn(['name' => $kims])
+		->send();
+		return $response['ok'];
 	}
 	
 }

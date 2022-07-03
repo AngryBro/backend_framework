@@ -1,11 +1,11 @@
 <?php
 
 abstract class Model {
+
 	protected $table;
-	protected $schema;
 
 	function query() {
-		return new Query($this->table,$this->schema);
+		return new Query($this->table);
 	}
 
 	static function include($model) {

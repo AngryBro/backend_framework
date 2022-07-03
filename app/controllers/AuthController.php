@@ -5,11 +5,12 @@ Model::include('User');
 class AuthController extends Controller {
 
 	function registerView() {
-		//$this->accessOnlyFor(['admin']);
+		$this->accessOnlyFor(['admin']);
 		return view('register');
 	}
 
 	function register($request) {
+		$this->accessOnlyFor(['admin']);
 		$auth = new User;
 		$response = $auth->register($request);
 		echo json_encode($response);

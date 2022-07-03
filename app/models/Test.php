@@ -1,55 +1,62 @@
 <?php
 
+Model::include('User');
+Model::include('Kim');
+
 class Test extends Model {
 
-	private $testDB;
-	private $kimsDB;
-	private $usersDB;
-
-	public function __construct() {
-		$this->testDB = new DB('Test');
-		$this->kimsDB = new DB('Kims');
-		$this->usersDB = new DB('Users');
-	}
-
-	function getKimName($user) {
-		return json_encode($this->usersDB->get($user)['kim']);
-	}
-
-	function download($file,$user) {
-		$kim_name = json_decode($this->getKimName($user),false);
-		$path = '../storage/'.$kim_name.'/'.$file;
-		header('Content-Disposition: attachment; filename="'.$file.'"');
-		readfile($path);
-	}
-
-	public function load($user) {
-		$name = $this->usersDB->get($user)['kim'];
-		$kim = $this->kimsDB->get($name);
-		$params = [
-			'files' => $kim['files'],
-			'name' => $name,
-			'additional_files' => $kim['additional_files']
-		];
-		return $params;
-	}
-
-	public function check($answers,$user) {
-		$kim_name = $this->usersDB->get($user)['kim'];
-		$right_ans = $this->kimsDB->get($kim_name)['answers'];
-		$final = [];
-		foreach($right_ans as $task => $ans) {
-			$final[$task] = [
-				'right' => $ans,
-				'actual' => $answers[$task],
-				'correct' => $ans==$answers[$task]
-			];
+	function kimName($email) {
+		$user = new User;
+		$response = $user->query()
+		->select(['kim'])
+		->where(['email' => $email])
+		->send();
+		if(!$response['empty']) {
+			return $response['data'][0]['kim'];
 		}
-		$this->testDB->push_data([
-			'user' => $user,
-			'kim' => $kim_name,
-			'answers' => $final
-		]);
+		return null;
+	}
+
+	function kimTasks($email) {
+		$kim = new Kim;
+		$kimName = $this->kimName($email);
+		$response = $kim->query()
+		->select(['answers','files'])
+		->where(['name' => $kimName])
+		->send();
+		if(!$response['empty']) {
+			return $response['data'][0];
+		}
+		return null;
+	}
+
+	function kimTaskNumbers($email) {
+		$answers = $this->kimTasks($email);
+		if($answers!==null) {
+			return array_keys(json_decode($answers['answers'],true));
+		}
+	}
+
+	function taskImg($email,$task) {
+		$tasks = $this->kimTaskNumbers($email);
+		if(!in_array($task,$tasks)&&($task!='info')) {
+			return null;
+		}
+		$kim = $this->kimName($email);
+		return config('file')['storage'].$kim.'/'.$task.'.png';
+	}
+
+	function download($file,$email) {
+		$kim_name = $this->kimName($email);
+		$file = implode('.',$file);
+		$path = config('file')['storage'].$kim_name.'/'.$file;
+		if(file_exists($path)) {
+			header('Content-Disposition: attachment; filename="'.$file.'"');
+			readfile($path);
+		}
+		else {
+			abort(404);
+		}
 	}
 	
 }

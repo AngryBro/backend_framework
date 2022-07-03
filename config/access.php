@@ -2,7 +2,11 @@
 
 return [
 	'default' => 'guest',
-	//'AdminController' => ['admin'],
+	'AdminController' => ['admin'],
 	'KimController' => ['admin'],
-	'TestController' => ['admin','user']
+	'AdminApiController' => ['admin'],
+	'KimApiController' => ['admin'],
+	'TestWebController' => ['admin','user'],
+	'TestApiController' => ['admin','user'],
+	'ResultApiController' => ['admin']
 ];

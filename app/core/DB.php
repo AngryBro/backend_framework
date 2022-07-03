@@ -1,6 +1,7 @@
 <?php
 
 class DB {
+    
     private $connection;
 
     function __construct() {

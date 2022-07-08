@@ -22,9 +22,9 @@ class AdminController extends Controller {
 	}
 
 	function unregister($request) {
-		$emails = json_decode($request['json'],false);
-		$auth = new User;
-		$response = $auth->unregister($emails);
-		echo json_encode($response);
+		$emails = $request->json(false);
+		$user = new User;
+		$user->unregister($emails);
+		return responseCode(200);
 	}
 }

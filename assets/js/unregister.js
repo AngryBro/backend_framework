@@ -21,6 +21,7 @@ function check_to_delete(checkbox) {
 }
 
 function build_table(users) {
+	users = users.data;
 	USERS_TO_DELETE = {};
 	var emails = [];
 	for(var i in users) {

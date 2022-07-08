@@ -11,10 +11,7 @@ class Test extends Model {
 		->select(['kim'])
 		->where(['email' => $email])
 		->send();
-		if(!$response['empty']) {
-			return $response['data'][0]['kim'];
-		}
-		return null;
+		return $response['data'][0]['kim'];
 	}
 
 	function kimTasks($email) {
@@ -35,10 +32,14 @@ class Test extends Model {
 		if($answers!==null) {
 			return array_keys(json_decode($answers['answers'],true));
 		}
+		return null;
 	}
 
 	function taskImg($email,$task) {
 		$tasks = $this->kimTaskNumbers($email);
+		if($tasks===null) {
+			return null;
+		}
 		if(!in_array($task,$tasks)&&($task!='info')) {
 			return null;
 		}

@@ -24,6 +24,7 @@ function delete_kims() {
 
 function build_table(kims) {
 	var temp = [];
+	kims = kims.data;
 	for(var i in kims) {
 		temp.push(kims[i]['name']);
 	}

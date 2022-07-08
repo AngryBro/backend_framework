@@ -10,7 +10,7 @@ class KimApiController extends Controller {
 		$response = $kim->query()
 		->select(['name'])
 		->send();
-		echo json_encode($response['data']);	
+		return responseJSON(['data' => $response['data']]);	
 	}
 	
 }

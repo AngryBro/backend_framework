@@ -20,6 +20,11 @@ function unparser(str) {
     return str;
 }
 function build(result) {
+    if(!result.ok) {
+        document.body.innerHTML = '';
+        return;
+    }
+    result = result.data;
     var header = document.getElementById('header');
     header.innerHTML = 'Результаты пользователя '+result.email+' по тесту '+result.kim;
     var table = document.getElementById('table');

@@ -109,6 +109,8 @@ class Route {
 			redirect(self::$default['url']);
 			return;
 		}
+		$splited = explode('/',$request_uri);
+		$api = $splited[0]=='api';
 		$match = self::match();
 		if($match['matched']) {
 			if(isset($match['view'])) {
@@ -121,14 +123,19 @@ class Route {
 			$role = isset($_SESSION['role'])?$_SESSION['role']:$roles['default'];
 			if((array_key_exists($controller.'Controller',$roles))&&
 				(!in_array($role,$roles[$controller.'Controller']))) {
+					if($api) {
+						return responseJSON(['ok' => false],403);
+					}
 					abort(403);
-					return;
 			}
 			$method = $match['route']['method'];
 			include config('file')['controllers'].$controller.'Controller.php';
 			eval('$controller = new '.$controller.'Controller;');
 			if(isset($match['params'])) {
 				$keys_params = array_keys($match['params']);
+				foreach($match['params'] as $key => $param) {
+					$match['params'][$key] = filter_var($param,FILTER_UNSAFE_RAW);
+				}
 				if(count($keys_params)==1) {
 					$controller->$method($match['params'][$keys_params[0]]);
 				}
@@ -140,10 +147,13 @@ class Route {
 				$controller->$method();
 			}
 			else {
-				$controller->$method($_POST);
+				$controller->$method(new Request($_POST));
 			}
 		}
 		else {
+			if($api) {
+				return responseJSON(['ok' => false],404);
+			}
 			abort(404);
 		}
 		return;

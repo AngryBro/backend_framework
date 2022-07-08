@@ -11,15 +11,25 @@ class AuthController extends Controller {
 
 	function register($request) {
 		$this->accessOnlyFor(['admin']);
+		$request = $request->validate([
+			'email' => ['required','maxlen:30','email'],
+			'password' => ['minlen:3','required'],
+			'kim' => ['required']
+		]);
 		$auth = new User;
 		$response = $auth->register($request);
-		echo json_encode($response);
+		return responseJSON(['ok'=>true]);
 	}
 
 	function login($post) {
 		$auth = new User;
-		$authed = $auth->login($post);
-		echo json_encode([
+		$request = $post->validate([
+			'email' => ['required'],
+			'password' => ['required']
+		]);
+		$authed = $auth->login($request);
+		return responseJSON([
+			'ok' => true,
 			'authed' => $authed,
 			'role' => $authed?$_SESSION['role']:config('access')['default']
 		]);

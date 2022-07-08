@@ -8,6 +8,27 @@ function load_app() {
 	include $load_files['routes'];
 }
 
+function responseJSON($json = [],$status=200) {
+	if(!isset($json['ok'])) {
+		$json['ok'] = true;
+	}
+	if($status!=200) {
+		$json['ok'] = false;
+	}
+	$description = config('responses')[$status];
+	$description = isset($description)?$description:'Unknown status';
+	header("HTTP/1.0 ".$status." ".$description);
+	echo json_encode($json);
+}
+
+function responseCode($code) {
+	$json = ['ok' => $code==200];
+	$description = config('responses')[$code];
+	$description = isset($description)?$description:'Unknown status';
+	header("HTTP/1.0 ".$code." ".$description);
+	echo json_encode($json);
+}
+
 function view($html) {
     $htmls = config('file')['assets']['html'];
 	require $htmls.$html.'.html';
@@ -15,7 +36,9 @@ function view($html) {
 
 function abort($code) {
 	http_response_code($code);
-	view('page'.$code);
+	if(file_exists(config('file')['assets']['html'].'page'.$code.'.html')) {
+		view('page'.$code);
+	}
 	exit;
 }
 

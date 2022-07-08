@@ -26,7 +26,7 @@ function send() {
 
 function sent(response) {
     setTimeout(logout,2000);
-    if(response) {
+    if(response.ok) {
         view('success_end');
     }
     else {
@@ -94,8 +94,7 @@ function unparser(str) {
 }
 
 function parser(str) {
-    str = str.replace(/ *|\t*/g,'');
-    str = str.replace(/\n+/g,'|');
+    str = str.replace(/ *|\t*/g,'').replace(/\n+/g,'|');
     if(str[str.length-1]=='|') {
         str = str.split('|');
         str.pop();
@@ -104,11 +103,6 @@ function parser(str) {
     if(str[0]=='|') {
         str = str.replace('|','');
     }
-    return str;
-}
-
-function test_reg(str) {
-    str = str.replace(/\n+/g,'|');
     return str;
 }
 

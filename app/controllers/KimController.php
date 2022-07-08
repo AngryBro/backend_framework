@@ -10,29 +10,23 @@ class KimController extends Controller {
 	}
 
 	function add($request) {
+		$request = $request->validate([
+			'kim' => ['required']
+		]);
 		$kim = new Kim;
 		$response = $kim->add($request,$_FILES);
-		echo json_encode($response);
+		return responseJSON($response);
 	}
 
-	function deleteKims($post) {
+	function deleteKims($request) {
 		$kim = new Kim;
-		$ok = $kim->delete(json_decode($post['json'],false));
-		echo json_encode($ok);
+		$kims_to_delete = $request->json(false);
+		$kim->delete($kims_to_delete);
+		return responseCode(200);
 	}
 
 	function delkims() {
 		return view('delkim');
-	}
-	
-	function getkims() {
-		$kim = new Kim;
-		echo json_encode($kim->getKims());
-	}
-
-	function make($names) {
-		$kim = new Kim;
-		$kim->make($names[0],$names[1],'hybrid');
 	}
 
 }

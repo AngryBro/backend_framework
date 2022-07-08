@@ -10,7 +10,7 @@ class ResultApiController extends Controller {
 		$response = $result->query()
 		->select()
 		->send();
-		echo json_encode($response['data']);
+		return responseJSON(['data' => $response['data']]);
 	}
 	
 	public function result($index) {
@@ -19,15 +19,15 @@ class ResultApiController extends Controller {
 		->select()
 		->send();
 		if(!in_array($index-1,array_keys($response['data']))) {
-			abort(404);
+			return responseCode(404);
 		}
-		echo json_encode($response['data'][$index-1]);
+		return responseJSON(['data' => $response['data'][$index-1]]);
 	}
 
 	public function delete($request) {
 		$result = new Result;
-		$result->delete(json_decode($request['json'],false));
-		echo json_encode(true);	
+		$result->delete($request->json(false));
+		return responseCode(200);
 	}
 
 }

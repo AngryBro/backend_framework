@@ -17,6 +17,7 @@ return [
         'Model' => '../app/core/Model.php',
         'Controller' => '../app/core/Controller.php',
         'Query' => '../app/core/Query.php',
+        'Request' => '../app/core/Request.php'
     ],
     'routes' => '../config/routes.php'
 ];

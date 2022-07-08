@@ -1,5 +1,8 @@
 function redirect(auth_data) {
-    if(auth_data['authed']) {
+    if(!auth_data.ok) {
+        return alert('Данные отсутствуют');
+    }
+    if(auth_data.authed) {
         location.href = auth_data['role']=='admin'?'/admin':'/startexam';
     }
     else {

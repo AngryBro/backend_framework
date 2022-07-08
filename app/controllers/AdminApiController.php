@@ -10,7 +10,10 @@ class AdminApiController extends Controller {
 		$response = $user->query()
 		->select(['email'])
 		->send();
-		echo json_encode($response['data']);	
+		return responseJSON([
+			'data' => $response['data'],
+			'ok' => true
+		]);	
 	}
 	
 }

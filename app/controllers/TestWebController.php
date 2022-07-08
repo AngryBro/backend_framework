@@ -6,7 +6,7 @@ Model::include('Result');
 class TestWebController extends Controller {
 
 	function save($request) {
-		$_SESSION['saved_answers'] = $request['json'];
+		$_SESSION['saved_answers'] = $request->rawData()['json'];
 	}
 
 	function getSavedAns() {
@@ -15,6 +15,9 @@ class TestWebController extends Controller {
 			$temp['i'] = '';
 			$test = new Test;
 			$tasks = $test->kimTaskNumbers($_SESSION['email']);
+			if($tasks===null) {
+				return responseCode(404);
+			}
 			foreach($tasks as $i) {
 				$temp[$i] = '';
 			}
@@ -32,14 +35,19 @@ class TestWebController extends Controller {
 	}
 
 	public function send($request) {
+		$kimModel = new Kim;
 		$result = new Result;
 		$test = new Test;
 		$email = $_SESSION['email'];
 		$kim = $test->kimName($email);
-		$answers = json_decode($test->kimTasks($email)['answers'],true);
-		$actualAnswers = json_decode($request['json'],true);
+		if($kimModel->notExists($kim)) {
+			return responseCode(204);
+		}
+		$tasks = $test->kimTasks($email);
+		$answers = json_decode(isset($tasks['answers'])?$tasks['answers']:[],true);
+		$actualAnswers = $request->json();
 		$response = $result->check($email,$kim,$answers,$actualAnswers);
-		echo json_encode($response);
+		return responseJSON(['ok' => $response]);
 	}
 
 	function download($file) {

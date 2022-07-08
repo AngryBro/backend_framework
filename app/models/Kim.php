@@ -6,6 +6,14 @@ class Kim extends Model {
 		$this->table = 'kims';
 	}
 
+	function notExists($name) {
+		$response = $this->query()
+		->select()
+		->where(['name' => $name])
+		->send();
+		return $response['empty'];
+	}
+
 	public function add($post,$files) {
 		$uploaded = $files['zip']['error']==UPLOAD_ERR_OK;
 		$errors = [];

@@ -13,13 +13,13 @@ class TestApiController extends Controller {
 		$test = new Test;
 		$tasks = $test->kimTasks($_SESSION['email']);
 		if($tasks!==null) {
-			echo json_encode([
+			responseJSON([
 				'tasks' => array_keys(json_decode($tasks['answers'],true)),
 				'files' => json_decode($tasks['files'],true)
 			]);
 		}
 		else {
-			abort(404);
+			responseCode(404);
 		}
 	}
 

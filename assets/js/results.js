@@ -19,6 +19,7 @@ function delete_results() {
 }
 
 function build_table(results) {
+    results = results.data;
     var table = document.getElementById('table');
     hide_button(document.getElementById('delete_button'));
     table.innerHTML = `

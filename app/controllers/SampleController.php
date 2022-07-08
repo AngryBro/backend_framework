@@ -5,7 +5,7 @@ Model::include('Sample');
 class SampleController extends Controller {
 	
 
-	public function index() {
+	function index() {
 		//	
 	}
 	

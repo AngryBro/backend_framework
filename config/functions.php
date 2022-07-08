@@ -9,12 +9,6 @@ function load_app() {
 }
 
 function responseJSON($json = [],$status=200) {
-	if(!isset($json['ok'])) {
-		$json['ok'] = true;
-	}
-	if($status!=200) {
-		$json['ok'] = false;
-	}
 	$description = config('responses')[$status];
 	$description = isset($description)?$description:'Unknown status';
 	header("HTTP/1.0 ".$status." ".$description);
@@ -22,11 +16,9 @@ function responseJSON($json = [],$status=200) {
 }
 
 function responseCode($code) {
-	$json = ['ok' => $code==200];
 	$description = config('responses')[$code];
 	$description = isset($description)?$description:'Unknown status';
 	header("HTTP/1.0 ".$code." ".$description);
-	echo json_encode($json);
 }
 
 function view($html) {

@@ -2,7 +2,7 @@
 
 class DebugController extends Controller {
 
-	public function index() {
+	function index() {
 		return view('debug');
 	}
 	

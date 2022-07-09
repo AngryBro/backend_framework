@@ -18,13 +18,12 @@ Route::default('/default');
 
 Route::get('/default','SampleController','sample');
 Route::get('/debug','DebugController');
-Route::get('/api/debug','DebugController','apiget');
 
 //
 
 //POST routes
 
-Route::post('/api/debug','DebugController','apiDebug');
+
 
 //
 

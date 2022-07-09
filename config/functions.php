@@ -19,6 +19,7 @@ function responseCode($code) {
 	$description = config('responses')[$code];
 	$description = isset($description)?$description:'Unknown status';
 	header("HTTP/1.0 ".$code." ".$description);
+	echo json_encode([]);
 }
 
 function view($html) {

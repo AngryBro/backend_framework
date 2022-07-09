@@ -3,6 +3,7 @@
 return [
     'models' => '../app/models/',
     'controllers' => '../app/controllers/',
+    'helpers' => '../app/helpers/',
     'assets' => [
         'html' => '../assets/html/',
         'js' => '../assets/js/',
@@ -17,7 +18,8 @@ return [
         'Model' => '../app/core/Model.php',
         'Controller' => '../app/core/Controller.php',
         'Query' => '../app/core/Query.php',
-        'Request' => '../app/core/Request.php'
+        'Request' => '../app/core/Request.php',
+        'Helper' => '../app/core/Helper.php'
     ],
     'routes' => '../config/routes.php'
 ];

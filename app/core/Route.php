@@ -46,8 +46,7 @@ class Route {
 		return;
 	}
 	
-	public static function match() {
-		$url = $_SERVER['REQUEST_URI'];
+	public static function match($url) {
 
 		if(array_key_exists($url,self::$view_routes)) {
 			return [
@@ -104,14 +103,15 @@ class Route {
 	
 	public static function run() {
 		session_start();
-		$request_uri = $_SERVER['REQUEST_URI'];
+		$request_uri = explode('?',$_SERVER['REQUEST_URI']);
+		$request_uri = $request_uri[0];
 		if(($request_uri=='/')&&self::$default['set']) {
 			redirect(self::$default['url']);
 			return;
 		}
 		$splited = explode('/',$request_uri);
 		$api = $splited[0]=='api';
-		$match = self::match();
+		$match = self::match($request_uri);
 		if($match['matched']) {
 			if(isset($match['view'])) {
 				return view($match['view']);
